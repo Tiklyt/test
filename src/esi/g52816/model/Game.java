@@ -1,7 +1,5 @@
 package esi.g52816.model;
 
-import java.util.List;
-
 /**
  *
  * @author bilal
@@ -10,17 +8,71 @@ public class Game {
 
     private Dungeon _dungeon;
     private Position _posPlayer;
+    private UndoManager _undoManager = new UndoManager();
 
+    /**
+     * Create a game in a level
+     *
+     * @param level the level where start
+     */
     public Game(int level) {
-        _posPlayer = new Position(1, 5);
         _dungeon = new Dungeon();
         _dungeon.DungeonLoader(level);
+        _posPlayer = _dungeon.playerFinder();
     }
 
-    public Square[][] getPlate(){
+    /**
+     * get the plate of the Dungeons
+     *
+     * @return a arrays of arrays of Square
+     */
+    public Square[][] getPlate() {
         return _dungeon.getPlate();
     }
-    
+
+    /**
+     * Allow to execute a Move if the command can be done.
+     *
+     * @param d the direction of the Move
+     */
+    public void moveExecute(Direction d) {
+        Command c = new MoveCommand(this, d);
+        if (c.canExecute()) {
+            _undoManager.doIt(new MoveCommand(this, d));
+        }
+
+    }
+
+    /**
+     * Allow to undo a action
+     */
+    public void undo() {
+        _undoManager.undo();
+    }
+
+    /**
+     * Allow to redo a action
+     */
+    public void redo() {
+        _undoManager.redo();
+    }
+
+    /**
+     * check if a Position isInside the Dungeons
+     *
+     * @param p the position p
+     * @return true or false
+     */
+    public boolean isInside(Position p) {
+        return _dungeon.isInside(p);
+    }
+
+    /**
+     * Move the Player in a specific direction
+     *
+     * @param d the direction where the Player will be done
+     * @return true or false if done or not
+     */
     public boolean move(Direction d) {
         Position nextPos = new Position(_posPlayer);
         nextPos.move(d.getRow(), d.getColumn());
@@ -37,22 +89,107 @@ public class Game {
             _dungeon.changeToVoid(_posPlayer);
             _posPlayer = new Position(nextPos);
             return true;
-        } else if(_dungeon.isVoidGround(nextPos)){
+        } else if (_dungeon.isVoidGround(nextPos)) {
             _dungeon.changeToPlayer(nextPos);
             _dungeon.changeToVoid(_posPlayer);
             _posPlayer = new Position(nextPos);
         }
         return false;
     }
-    
-    
-    public boolean canPushBox(Position p1,Position p2){
+
+    /**
+     * Check if the Player can push the box
+     *
+     * @param p1 the Position front of the player
+     * @param p2 the Position front of front of the player
+     * @return true or false
+     */
+    public boolean canPushBox(Position p1, Position p2) {
         return _dungeon.isBox(p1)
                 && (_dungeon.isVoidGround(p2)
                 || _dungeon.isStorage(p2));
     }
-    
-    public boolean isOver(){
+
+    /**
+     * check if dungeons is over
+     *
+     * @return true or false
+     */
+    public boolean isOver() {
+        for (int i = 0; i < _dungeon.getPlate().length; i++) {
+            for (int j = 0; j < _dungeon.getPlate().length; j++) {
+                if (!_dungeon.getPlate()[i][j].isBox()
+                        && _dungeon.getPlate()[i][j].isStorage()) {
+                    return false;
+                }
+            }
+        }
         return true;
+    }
+
+    /**
+     * get the current level of dungeons
+     *
+     * @return a int
+     */
+    public int getCurrentLevel() {
+        return _dungeon.getCurrentLevel();
+    }
+
+    /**
+     * allow to back to the previous level
+     *
+     * @return true if done , false if not
+     */
+    public boolean previousLevel() {
+        if (_dungeon.getCurrentLevel() > 0) {
+            _dungeon.DungeonLoader(_dungeon.getCurrentLevel() - 1);
+            _posPlayer = _dungeon.playerFinder();
+            _undoManager = new UndoManager();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Allow to play the next Level
+     *
+     * @return true if done, false if not
+     */
+    public boolean nextLevel() {
+        if (_dungeon.getCurrentLevel() + 1 < _dungeon.getNbLevel() - 1) {
+            _dungeon.DungeonLoader(_dungeon.getCurrentLevel() + 1);
+            _posPlayer = _dungeon.playerFinder();
+            _undoManager = new UndoManager();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Restart the current level
+     */
+    public void restart() {
+        _dungeon.restartLevel();
+        _undoManager = new UndoManager();
+        _posPlayer = _dungeon.playerFinder();
+    }
+
+    /**
+     * get the current position of the player
+     *
+     * @return a position
+     */
+    public Position getPosPlayer() {
+        return _posPlayer;
+    }
+
+    /**
+     * set the position of the Player
+     *
+     * @param pos the position where the player will be
+     */
+    public void setPosPlayer(Position pos) {
+        _posPlayer = new Position(pos);
     }
 }

@@ -6,5 +6,5 @@ package esi.g52816.model;
  */
 public enum SquareType {
     //REPRESENT A SQUARE BY WALL,GROUND OR STORAGE
-    GROUND,WALL,STORAGE;
+    GROUND, WALL, STORAGE;
 }

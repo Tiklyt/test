@@ -17,6 +17,11 @@ public class Square {
         this._typeEntity = EntityType.VOID;
     }
 
+    public Square(Square square) {
+        this._typeSquare = square._typeSquare;
+        this._typeEntity = square._typeEntity;
+    }
+
     /**
      * Create a Square with parameter
      *
@@ -26,7 +31,6 @@ public class Square {
         this._typeSquare = SquareType.GROUND;
         this._typeEntity = typeEntity;
     }
-
     /**
      * Create a Square with 2 parameter
      *

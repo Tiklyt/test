@@ -6,5 +6,5 @@ package esi.g52816.model;
  */
 public enum EntityType {
     //REPRESENT A ENTITY BY A BOX,A PLAYER OR VOID
-    BOX,PLAYER,VOID;
+    BOX, PLAYER, VOID;
 }
