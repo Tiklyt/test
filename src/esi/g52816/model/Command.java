@@ -2,7 +2,7 @@ package esi.g52816.model;
 
 /**
  *
- * @author user
+ * @author bilal
  */
 public interface Command {
 
@@ -17,6 +17,9 @@ public interface Command {
     void unexecute();
     
     
-    
+    /**
+     * check if a command can be executed
+     * @return true or false
+     */
     boolean  canExecute();
 }

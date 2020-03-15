@@ -2,7 +2,7 @@ package esi.g52816.model;
 
 /**
  *
- * @author user
+ * @author bilal
  */
 public class MoveCommand implements Command {
 
@@ -30,22 +30,21 @@ public class MoveCommand implements Command {
         Position doubleNextPos = new Position(nextPos);
         doubleNextPos.move(_direction.getRow(), _direction.getColumn());
         _currentSquare = new Square(_game.getPlate()[_posPlayer.getX()][_posPlayer.getY()]);
-        if(_game.isInside(nextPos)){
+        if (_game.isInside(nextPos)) {
             _nextSquare = new Square(_game.getPlate()[nextPos.getX()][nextPos.getY()]);
         }
-        if(_game.isInside(doubleNextPos)){
+        if (_game.isInside(doubleNextPos)) {
             _doubleNextSquare = new Square(_game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()]);
         }
-       
+
     }
 
-    
     /**
-     * Check the Position of the next's Pos 
-     * is inside the Board
+     * Check the Position of the next's Pos is inside the Board
+     *
      * @return true or false
      */
-    public boolean isInside(){
+    public boolean isInside() {
         Position NextPos = new Position(_posPlayer);
         NextPos.move(_direction.getRow(), _direction.getColumn());
 
@@ -53,6 +52,7 @@ public class MoveCommand implements Command {
         doubleNextPos.move(_direction.getRow(), _direction.getColumn());
         return _game.isInside(NextPos) && _game.isInside(doubleNextPos);
     }
+
     /**
      * Execute the command
      */
@@ -83,7 +83,8 @@ public class MoveCommand implements Command {
 
     /**
      * check if the command can be executed
-     * @return 
+     *
+     * @return
      */
     @Override
     public boolean canExecute() {

@@ -22,25 +22,50 @@ public class Game {
     }
 
     /**
-     * get the plate of the Dungeons
-     *
-     * @return a arrays of arrays of Square
-     */
-    public Square[][] getPlate() {
-        return _dungeon.getPlate();
-    }
-
-    /**
      * Allow to execute a Move if the command can be done.
      *
      * @param d the direction of the Move
      */
     public void moveExecute(Direction d) {
+        
         Command c = new MoveCommand(this, d);
+        
         if (c.canExecute()) {
             _undoManager.doIt(new MoveCommand(this, d));
         }
+    }
 
+    /**
+     * Move the Player in a specific direction
+     *
+     * @param d the direction where the Player will be done
+     * @return true or false if done or not
+     */
+    public boolean move(Direction d) {
+
+        Position nextPos = new Position(_posPlayer);
+        nextPos.move(d.getRow(), d.getColumn());
+
+        Position doubleNextPos = new Position(nextPos);
+        doubleNextPos.move(d.getRow(), d.getColumn());
+
+        if (canPushBox(nextPos, doubleNextPos)) {
+            _dungeon.changeToVoid(_posPlayer);
+            _dungeon.changeToPlayer(nextPos);
+            _dungeon.changeToBox(doubleNextPos);
+            _posPlayer = new Position(nextPos);
+            return true;
+        } else if (_dungeon.isStorage(nextPos)) {
+            _dungeon.changeToPlayer(nextPos);
+            _dungeon.changeToVoid(_posPlayer);
+            _posPlayer = new Position(nextPos);
+            return true;
+        } else if (_dungeon.isVoidGround(nextPos)) {
+            _dungeon.changeToPlayer(nextPos);
+            _dungeon.changeToVoid(_posPlayer);
+            _posPlayer = new Position(nextPos);
+        }
+        return false;
     }
 
     /**
@@ -65,36 +90,6 @@ public class Game {
      */
     public boolean isInside(Position p) {
         return _dungeon.isInside(p);
-    }
-
-    /**
-     * Move the Player in a specific direction
-     *
-     * @param d the direction where the Player will be done
-     * @return true or false if done or not
-     */
-    public boolean move(Direction d) {
-        Position nextPos = new Position(_posPlayer);
-        nextPos.move(d.getRow(), d.getColumn());
-        Position doubleNextPos = new Position(nextPos);
-        doubleNextPos.move(d.getRow(), d.getColumn());
-        if (canPushBox(nextPos, doubleNextPos)) {
-            _dungeon.changeToVoid(_posPlayer);
-            _dungeon.changeToPlayer(nextPos);
-            _dungeon.changeToBox(doubleNextPos);
-            _posPlayer = new Position(nextPos);
-            return true;
-        } else if (_dungeon.isStorage(nextPos)) {
-            _dungeon.changeToPlayer(nextPos);
-            _dungeon.changeToVoid(_posPlayer);
-            _posPlayer = new Position(nextPos);
-            return true;
-        } else if (_dungeon.isVoidGround(nextPos)) {
-            _dungeon.changeToPlayer(nextPos);
-            _dungeon.changeToVoid(_posPlayer);
-            _posPlayer = new Position(nextPos);
-        }
-        return false;
     }
 
     /**
@@ -125,15 +120,6 @@ public class Game {
             }
         }
         return true;
-    }
-
-    /**
-     * get the current level of dungeons
-     *
-     * @return a int
-     */
-    public int getCurrentLevel() {
-        return _dungeon.getCurrentLevel();
     }
 
     /**
@@ -182,6 +168,24 @@ public class Game {
      */
     public Position getPosPlayer() {
         return _posPlayer;
+    }
+
+    /**
+     * get the plate of the Dungeons
+     *
+     * @return a arrays of arrays of Square
+     */
+    public Square[][] getPlate() {
+        return _dungeon.getPlate();
+    }
+
+    /**
+     * get the current level of dungeons
+     *
+     * @return a int
+     */
+    public int getCurrentLevel() {
+        return _dungeon.getCurrentLevel();
     }
 
     /**

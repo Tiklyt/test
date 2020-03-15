@@ -19,6 +19,7 @@ public class View {
      * @param game the game view
      */
     public View(Game game) {
+        System.out.println("Welcome to the Sokoban of Bilal");
         in = new Scanner(System.in);
         this.game = game;
     }
@@ -38,7 +39,7 @@ public class View {
     }
     
     public void helpShower(){
-        System.out.println("Welcome to the Sokoban of Bilal");
+        
         System.out.println("COMMAND");
         System.out.println("==========");
         System.out.println("z : UP // q : LEFT // d : DOWN // d : RIGHT");

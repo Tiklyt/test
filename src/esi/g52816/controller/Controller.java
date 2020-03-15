@@ -38,6 +38,8 @@ public class Controller {
             case "previous" : g.previousLevel();
             break;
             case "quit" : System.exit(0);
+            break;
+            case "help" : v.helpShower();
             default: 
         }
     }

@@ -6,8 +6,8 @@ package esi.g52816.model;
  */
 public class Position {
 
-    private int x;
-    private int y;
+    private int _x;
+    private int _y;
 
     /**
      * Constructor of the Position class for creating the Position of a Square
@@ -16,8 +16,8 @@ public class Position {
      * @param column the column of the plate
      */
     public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this._x = x;
+        this._y = y;
     }
 
     /**
@@ -26,8 +26,8 @@ public class Position {
      * @param copy the copy that will be "copied"
      */
     public Position(Position copy) {
-        this.x = copy.getX();
-        this.y = copy.getY();
+        this._x = copy.getX();
+        this._y = copy.getY();
     }
 
     /**
@@ -36,7 +36,7 @@ public class Position {
      * @return int
      */
     public int getX() {
-        return x;
+        return _x;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Position {
      * @return int
      */
     public int getY() {
-        return y;
+        return _y;
     }
 
     /**
@@ -55,8 +55,37 @@ public class Position {
      * @param dy dy
      */
     public void move(int dx, int dy) {
-        x += dx;
-        y += dy;
+        _x += dx;
+        _y += dy;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + this._x;
+        hash = 97 * hash + this._y;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Position other = (Position) obj;
+        if (this._x != other._x) {
+            return false;
+        }
+        if (this._y != other._y) {
+            return false;
+        }
+        return true;
     }
 
 }

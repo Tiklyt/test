@@ -23,13 +23,7 @@ public class Dungeon {
         DungeonSearcher();
     }
 
-    /**
-     * restart a level
-     */
-    public void restartLevel() {
-        DungeonLoader(currentLevel);
-    }
-
+    
     /**
      * load a Dungeon in the game
      *
@@ -41,15 +35,14 @@ public class Dungeon {
         String result = stringCleaner(levels[level]) + " ";
         stringSearcher(result);
     }
-
+    
     /**
-     * get the current number level
-     *
-     * @return a int
+     * restart a level
      */
-    public int getNbLevel() {
-        return levels.length;
+    public void restartLevel() {
+        DungeonLoader(currentLevel);
     }
+
 
     /**
      * Transform a string into a object
@@ -130,23 +123,24 @@ public class Dungeon {
     }
 
     /**
+     * read a file of level
+     */
+    private void DungeonSearcher() {
+        String level = "";
+        try {
+            level = Files.readString(Paths.get("level.txt"));
+        } catch (IOException ex) {
+        }
+        this.levels = level.split(";");
+    }
+
+    /**
      * get the current level of the Dungeons
      *
      * @return a int
      */
     public int getCurrentLevel() {
         return currentLevel;
-    }
-
-    /**
-     * Check if a Position is Inside the Dungeons
-     *
-     * @param pos the position
-     * @return true or false
-     */
-    public boolean isInside(Position pos) {
-        return pos.getX() > 0 && pos.getX() < DUNGEONS_LENGTH
-                && pos.getY() > 0 && pos.getY() < DUNGEONS_LENGTH;
     }
 
     /**
@@ -159,15 +153,23 @@ public class Dungeon {
     }
 
     /**
-     * read a file of level
+     * get the current number level
+     *
+     * @return a int
      */
-    private void DungeonSearcher() {
-        String level = "";
-        try {
-            level = Files.readString(Paths.get("level.txt"));
-        } catch (IOException ex) {
-        }
-        this.levels = level.split(";");
+    public int getNbLevel() {
+        return levels.length;
+    }
+
+    /**
+     * Check if a Position is Inside the Dungeons
+     *
+     * @param pos the position
+     * @return true or false
+     */
+    public boolean isInside(Position pos) {
+        return pos.getX() >= 0 && pos.getX() < DUNGEONS_LENGTH
+                && pos.getY() >= 0 && pos.getY() < DUNGEONS_LENGTH;
     }
 
     /**

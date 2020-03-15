@@ -5,7 +5,7 @@ import java.util.Stack;
 
 /**
  *
- * @author user
+ * @author bilal
  */
 public class UndoManager {
     private Stack<Command> undoStack = new Stack<>(); // minuscule
