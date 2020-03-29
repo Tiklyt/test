@@ -6,7 +6,7 @@ package esi.g52816.model;
  */
 public class Game {
 
-    private Dungeon _dungeon;
+    private Dungeon _dungeon; //|srv: en Java pas de _
     private Position _posPlayer;
     private UndoManager _undoManager = new UndoManager();
 
@@ -99,7 +99,8 @@ public class Game {
      * @param p2 the Position front of front of the player
      * @return true or false
      */
-    public boolean canPushBox(Position p1, Position p2) {
+    public boolean canPushBox(Position p1, Position p2) { //@srv: ce serait parfait si ceci se trouvait dans une classe Box, pareil pour le joueur.
+        //@srv: Box.canMove(...) box.move(...), player.canMove(...), player.move(...)
         return _dungeon.isBox(p1)
                 && (_dungeon.isVoidGround(p2)
                 || _dungeon.isStorage(p2));

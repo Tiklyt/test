@@ -56,7 +56,7 @@ public class View {
             for (int j = 0; j < a.length; j++) {
 
                 if (a[i][j].isPlayer() && a[i][j].isStorage()) {
-                    System.out.print("+");
+                    System.out.print("+"); //@srv: constantes.
                 } else if (a[i][j].isBox() && a[i][j].isStorage()) {
                     System.out.print("*");
                 } else if (a[i][j].isBox()) {

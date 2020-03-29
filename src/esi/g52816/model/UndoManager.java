@@ -4,7 +4,7 @@ package esi.g52816.model;
 import java.util.Stack;
 
 /**
- *
+ * //@srv: JAVADOC - à part ça, ta classe est top !
  * @author bilal
  */
 public class UndoManager {

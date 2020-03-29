@@ -8,10 +8,10 @@ import java.nio.file.Paths;
  *
  * @author bilal
  */
-public class Dungeon {
+public class Dungeon { //@srv: trop de méthode public !
 
     private Square[][] plate;
-    private String[] levels;
+    private String[] levels; //@srv la gestion/traudction des fichiers doit se faire dans une classe dédiée.
     private int currentLevel;
     private static final int DUNGEONS_LENGTH = 8;
 
@@ -49,13 +49,13 @@ public class Dungeon {
      *
      * @param toSearch the string that will be converted
      */
-    private void stringSearcher(String toSearch) {
+    private void stringSearcher(String toSearch) { //@srv traduction des fichiers dans un eclasse dédiée: XsbLoader.
         int k = 0;
         Position posPlayer = null;
         for (int i = 0; i < DUNGEONS_LENGTH; i++) {
             for (int j = 0; j < DUNGEONS_LENGTH; j++) {
                 switch (toSearch.charAt(k)) {
-                    case '+':
+                    case '+': //@srv: constantes !
                         plate[i][j] = new Square(SquareType.STORAGE, EntityType.PLAYER);
                         break;
                     case '*':
@@ -89,7 +89,7 @@ public class Dungeon {
      *
      * @return true or false
      */
-    public Position playerFinder() {
+    public Position playerFinder() { //@srv mieux vautr stocker sa position quelque part
         for (int i = 0; i < plate.length; i++) {
             for (int j = 0; j < plate[i].length; j++) {
                 if (plate[i][j].isPlayer()) {
@@ -148,7 +148,7 @@ public class Dungeon {
      *
      * @return a arrays of arrays of Square
      */
-    public Square[][] getPlate() {
+    public Square[][] getPlate() { //@srv JAMAIS retourner un attribut de type tableau ou List (encapsulation).
         return plate;
     }
 

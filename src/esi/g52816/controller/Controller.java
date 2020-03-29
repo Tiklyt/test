@@ -19,7 +19,7 @@ public class Controller {
     
     public void commandFinder(String command){
         switch(command){
-            case "z" : g.moveExecute(Direction.UP);
+            case "z" : g.moveExecute(Direction.UP); //@srv constantes.
             break;
             case "d" : g.moveExecute(Direction.RIGHT);
             break;
