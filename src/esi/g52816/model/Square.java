@@ -1,6 +1,8 @@
 package esi.g52816.model;
 
-import esi.g52816.Observer.Observable;
+import java.util.Observable;
+
+
 
 /**
  *
