@@ -1,10 +1,12 @@
 package esi.g52816.model;
 
+import esi.g52816.Observer.Observable;
+
 /**
  *
  * @author bilal
  */
-public class Square {
+public class Square extends Observable{
 
     private SquareType _typeSquare;
     private EntityType _typeEntity;
