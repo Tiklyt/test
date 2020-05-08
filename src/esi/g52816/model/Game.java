@@ -42,7 +42,7 @@ public class Game {
      * @return true or false if done or not
      */
     public boolean move(Direction d) {
-
+        
         Position nextPos = new Position(_posPlayer);
         nextPos.move(d.getRow(), d.getColumn());
 
@@ -50,22 +50,27 @@ public class Game {
         doubleNextPos.move(d.getRow(), d.getColumn());
 
         if (canPushBox(nextPos, doubleNextPos)) {
+            System.out.println("moved1");
             _dungeon.changeToVoid(_posPlayer);
             _dungeon.changeToPlayer(nextPos);
             _dungeon.changeToBox(doubleNextPos);
             _posPlayer = new Position(nextPos);
             return true;
-        } else if (_dungeon.isStorage(nextPos)) {
+        }  else if (_dungeon.isVoidGround(nextPos)) {
+            System.out.println("moved3");
             _dungeon.changeToPlayer(nextPos);
             _dungeon.changeToVoid(_posPlayer);
             _posPlayer = new Position(nextPos);
-            return true;
-        } else if (_dungeon.isVoidGround(nextPos)) {
+        } else if(_dungeon.isStorage(nextPos ) && _dungeon.isVoid(nextPos)){
             _dungeon.changeToPlayer(nextPos);
             _dungeon.changeToVoid(_posPlayer);
             _posPlayer = new Position(nextPos);
         }
         return false;
+    }
+    
+    public Dungeon getDungeons(){
+        return _dungeon;
     }
 
     /**
@@ -103,7 +108,7 @@ public class Game {
         //@srv: Box.canMove(...) box.move(...), player.canMove(...), player.move(...)
         return _dungeon.isBox(p1)
                 && (_dungeon.isVoidGround(p2)
-                || _dungeon.isStorage(p2));
+                || (_dungeon.isStorage(p2) && _dungeon.isVoid(p2)));
     }
 
     /**

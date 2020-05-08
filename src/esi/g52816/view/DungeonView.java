@@ -1,10 +1,10 @@
 package esi.g52816.view;
 
+import esi.g52816.Events.displacementEvent;
 import esi.g52816.model.Dungeon;
 import esi.g52816.model.Game;
 import esi.g52816.model.Position;
 import javafx.scene.layout.GridPane;
-import esi.g52816.view.SquareView;
 import java.io.FileNotFoundException;
 
 /**
@@ -22,7 +22,7 @@ public class DungeonView extends GridPane {
             for (int j = 0; j < d.getPlate()[0].length; j++) {
                 Position position = new Position(i,j);
                 SquareView square = new SquareView(d.getPlate()[i][j]);
-                this.add(square, i, j);
+                this.add(square, j, i);
             }
         }
     }

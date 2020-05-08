@@ -2,13 +2,11 @@ package esi.g52816.model;
 
 import java.util.Observable;
 
-
-
 /**
  *
  * @author bilal
  */
-public class Square extends Observable{
+public class Square extends Observable {
 
     private SquareType _typeSquare;
     private EntityType _typeEntity;
@@ -35,6 +33,7 @@ public class Square extends Observable{
         this._typeSquare = SquareType.GROUND;
         this._typeEntity = typeEntity;
     }
+
     /**
      * Create a Square with 2 parameter
      *
@@ -81,6 +80,14 @@ public class Square extends Observable{
     public boolean isVoidGround() {
         return _typeEntity == EntityType.VOID && _typeSquare == SquareType.GROUND;
     }
+    
+    public boolean isVoid(){
+        return _typeEntity == EntityType.VOID;
+    }
+
+    public boolean isGround() {
+        return _typeSquare == SquareType.GROUND;
+    }
 
     /**
      * Check if the square is a Storage
@@ -96,6 +103,8 @@ public class Square extends Observable{
      */
     public void changeToBox() {
         _typeEntity = EntityType.BOX;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -103,6 +112,8 @@ public class Square extends Observable{
      */
     public void changeToPlayer() {
         _typeEntity = EntityType.PLAYER;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -110,6 +121,8 @@ public class Square extends Observable{
      */
     public void changeToVoid() {
         _typeEntity = EntityType.VOID;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -118,6 +131,8 @@ public class Square extends Observable{
     public void changeToVoidGround() {
         _typeEntity = EntityType.VOID;
         _typeSquare = SquareType.GROUND;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -126,6 +141,15 @@ public class Square extends Observable{
     public void changeToWall() {
         _typeSquare = SquareType.WALL;
         _typeEntity = EntityType.VOID;
+        setChanged();
+        notifyObservers();
     }
+
+    @Override
+    public String toString() {
+        return "Square{" + "_typeSquare=" + _typeSquare + ", _typeEntity=" + _typeEntity + '}';
+    }
+    
+   
 
 }

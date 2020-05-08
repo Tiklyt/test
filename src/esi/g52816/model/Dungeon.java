@@ -211,6 +211,10 @@ public class Dungeon { //@srv: trop de méthode public !
     public boolean isStorage(Position p) {
         return plate[p.getX()][p.getY()].isStorage();
     }
+    
+    public boolean isVoid(Position p){
+        return plate[p.getX()][p.getY()].isVoid();
+    }
 
     /**
      * Change in a specific position to Box
