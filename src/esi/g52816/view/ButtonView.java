@@ -41,30 +41,37 @@ public class ButtonView extends HBox {
         prevLevel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
+                System.out.println("Clicked");
                 game.previousLevel();
+                System.out.println("CurrentLevel :" + game.getCurrentLevel());
             }
         });
         nextLevel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
+                System.out.println("Clicked");
                 game.nextLevel();
+                System.out.println("CurrentLevel :" + game.getCurrentLevel());
             }
         });
         restart.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
+                System.out.println("Clicked");
                 game.restart();
             }
         });
         undo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
+                System.out.println("Clicked");
                 game.undo();
             }
         });
         redo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
+                System.out.println("Clicked");
                 game.redo();
             }
         });

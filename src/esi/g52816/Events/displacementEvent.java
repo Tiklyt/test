@@ -30,19 +30,19 @@ public class displacementEvent implements EventHandler<KeyEvent> {
         switch (t.getCode()) {
             case W:
                 System.out.println("Handled");
-                g.move(Direction.UP);
+                g.moveExecute(Direction.UP);
                 break;
             case S:
                 System.out.println("Handled");
-                g.move(Direction.DOWN);
+                g.moveExecute(Direction.DOWN);
                 break;
             case A:
                 System.out.println("Handled");
-                g.move(Direction.LEFT);
+                g.moveExecute(Direction.LEFT);
                 break;
             case D:
                 System.out.println("Handled");
-                g.move(Direction.RIGHT);
+                g.moveExecute(Direction.RIGHT);
                 break;
             default:
                 break;

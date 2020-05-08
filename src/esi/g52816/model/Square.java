@@ -17,11 +17,33 @@ public class Square extends Observable {
     public Square() {
         this._typeSquare = SquareType.GROUND;
         this._typeEntity = EntityType.VOID;
+        System.out.println("res");
     }
 
     public Square(Square square) {
         this._typeSquare = square._typeSquare;
         this._typeEntity = square._typeEntity;
+        System.out.println("res");
+    }
+
+    public void setTypeEntity(EntityType _typeEntity) {
+        setChanged();
+        notifyObservers();
+        this._typeEntity = _typeEntity;
+    }
+
+    public void setTypeSquare(SquareType _typeSquare) {
+        setChanged();
+        notifyObservers();
+        this._typeSquare = _typeSquare;
+    }
+
+    public EntityType getTypeEntity() {
+        return _typeEntity;
+    }
+
+    public SquareType getTypeSquare() {
+        return _typeSquare;
     }
 
     /**
@@ -32,6 +54,7 @@ public class Square extends Observable {
     public Square(EntityType typeEntity) {
         this._typeSquare = SquareType.GROUND;
         this._typeEntity = typeEntity;
+        System.out.println("res");
     }
 
     /**
@@ -43,6 +66,7 @@ public class Square extends Observable {
     public Square(SquareType typeSquare, EntityType typeEntity) {
         this._typeSquare = typeSquare;
         this._typeEntity = typeEntity;
+        System.out.println("res");
     }
 
     /**
@@ -80,8 +104,8 @@ public class Square extends Observable {
     public boolean isVoidGround() {
         return _typeEntity == EntityType.VOID && _typeSquare == SquareType.GROUND;
     }
-    
-    public boolean isVoid(){
+
+    public boolean isVoid() {
         return _typeEntity == EntityType.VOID;
     }
 
@@ -125,6 +149,12 @@ public class Square extends Observable {
         notifyObservers();
     }
 
+    public void changeToGround() {
+        _typeSquare = SquareType.GROUND;
+        setChanged();
+        notifyObservers();
+    }
+
     /**
      * Change to a void Ground
      */
@@ -145,11 +175,15 @@ public class Square extends Observable {
         notifyObservers();
     }
 
+    public void changeToStorage() {
+        _typeSquare = SquareType.STORAGE;
+        setChanged();
+        notifyObservers();
+    }
+
     @Override
     public String toString() {
         return "Square{" + "_typeSquare=" + _typeSquare + ", _typeEntity=" + _typeEntity + '}';
     }
-    
-   
 
 }

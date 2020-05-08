@@ -20,6 +20,11 @@ public class Dungeon { //@srv: trop de méthode public !
      */
     public Dungeon() {
         plate = new Square[DUNGEONS_LENGTH][DUNGEONS_LENGTH];
+        for (int i = 0; i < DUNGEONS_LENGTH; i++) {
+            for (int j = 0; j < DUNGEONS_LENGTH; j++) {
+                plate[i][j] = new Square();
+            }
+        }
         DungeonSearcher();
     }
 
@@ -56,25 +61,31 @@ public class Dungeon { //@srv: trop de méthode public !
             for (int j = 0; j < DUNGEONS_LENGTH; j++) {
                 switch (toSearch.charAt(k)) {
                     case '+': //@srv: constantes !
-                        plate[i][j] = new Square(SquareType.STORAGE, EntityType.PLAYER);
+                        plate[i][j].changeToPlayer();
+                        plate[i][j].changeToStorage();
                         break;
                     case '*':
-                        plate[i][j] = new Square(SquareType.STORAGE, EntityType.BOX);
+                        plate[i][j].changeToStorage();
+                        plate[i][j].changeToBox();
                         break;
                     case '#':
-                        plate[i][j] = new Square(SquareType.WALL, EntityType.VOID);
+                        plate[i][j].changeToWall();
+                        plate[i][j].changeToVoid();
                         break;
                     case '@':
-                        plate[i][j] = new Square(EntityType.PLAYER);
+                        plate[i][j].changeToPlayer();
+                        plate[i][j].changeToGround();
                         break;
                     case '$':
-                        plate[i][j] = new Square(EntityType.BOX);
+                        plate[i][j].changeToBox();
+                        plate[i][j].changeToGround();
                         break;
                     case '.':
-                        plate[i][j] = new Square(SquareType.STORAGE, EntityType.VOID);
+                        plate[i][j].changeToStorage();
+                        plate[i][j].changeToVoid();
                         break;
                     case ' ':
-                        plate[i][j] = new Square();
+                        plate[i][j].changeToVoidGround();
                         break;
                     default:
                         break;

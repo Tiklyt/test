@@ -6,6 +6,7 @@
 package esi.g52816.model;
 
 import esi.g52816.Events.displacementEvent;
+import esi.g52816.view.ButtonView;
 import esi.g52816.view.DungeonView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,7 +33,8 @@ public class mainTest extends Application {
         //Creating a scene object 
         Scene scene = new Scene(dungeonView, 1000, 700);
         scene.setOnKeyPressed(new displacementEvent(g));
-
+        dungeonView.getChildren().add(new ButtonView(g));
+        
         //Setting title to the Stage 
         stage.setTitle("Loading an image");
 
