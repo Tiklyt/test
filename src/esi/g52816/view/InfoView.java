@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
@@ -24,11 +27,14 @@ public class InfoView extends VBox implements Observer {
     public InfoView(Observable obs) {
         this.game = (Game) obs;
         this.nbMovement = new Label("-");
-        this.nbMovement.setTextFill(Color.BLACK);
+        this.nbMovement.setTextFill(Color.WHITE);
+        nbMovement.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 40)); 
         this.nbStorage = new Label("-");
-        this.nbStorage.setTextFill(Color.BLACK);
+        this.nbStorage.setTextFill(Color.WHITE);
+        this.nbStorage.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 40)); 
         this.nbStorageFull = new Label("-");
-        this.nbStorageFull.setTextFill(Color.BLACK);
+        this.nbStorageFull.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 40));
+        this.nbStorageFull.setTextFill(Color.WHITE);
         game.addObserver(this);
         initialize();
     }
@@ -37,8 +43,14 @@ public class InfoView extends VBox implements Observer {
         HBox title = new HBox();
         title.setAlignment(Pos.CENTER);
         title.setSpacing(20);
-        title.getChildren().addAll(new Text("nb of mov. "), new Text("nb of storage."),
-                new Text("nb of storage full"));
+        Text nbMoves = new Text("nb of mov.");
+        nbMoves.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 15));
+        Text  nbSto = new Text("storage slot");
+        nbSto.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 15));
+        Text nbStoFull = new Text("full storage");
+        nbStoFull.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 15));
+        title.getChildren().addAll(nbMoves, nbSto,
+                nbStoFull);
         HBox value = new HBox();
         value.setAlignment(Pos.CENTER);
         value.setSpacing(70);
