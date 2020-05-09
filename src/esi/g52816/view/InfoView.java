@@ -23,26 +23,27 @@ public class InfoView extends VBox implements Observer {
 
     public InfoView(Observable obs) {
         this.game = (Game) obs;
-        this.nbMovement = new Label("0");
+        this.nbMovement = new Label("-");
         this.nbMovement.setTextFill(Color.BLACK);
-        this.nbStorage = new Label("0");
+        this.nbStorage = new Label("-");
         this.nbStorage.setTextFill(Color.BLACK);
-        this.nbStorageFull = new Label("0");
+        this.nbStorageFull = new Label("-");
         this.nbStorageFull.setTextFill(Color.BLACK);
         game.addObserver(this);
+        initialize();
     }
 
     public void initialize() {
         HBox title = new HBox();
         title.setAlignment(Pos.CENTER);
         title.setSpacing(20);
-        title.getChildren().addAll(new Text("nb of mov."), new Text("nb of storage."),
+        title.getChildren().addAll(new Text("nb of mov. "), new Text("nb of storage."),
                 new Text("nb of storage full"));
         HBox value = new HBox();
         value.setAlignment(Pos.CENTER);
-        value.setSpacing(20);
-        value.getChildren().addAll(nbMovement,nbStorage,nbStorageFull);
-        this.getChildren().addAll(title,value);
+        value.setSpacing(70);
+        value.getChildren().addAll(nbMovement, nbStorage, nbStorageFull);
+        this.getChildren().addAll(title, value);
     }
 
     @Override

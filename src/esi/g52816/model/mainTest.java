@@ -9,12 +9,21 @@ import esi.g52816.Events.displacementEvent;
 import esi.g52816.view.ButtonView;
 import esi.g52816.view.DungeonView;
 import esi.g52816.view.HistoryView;
+import esi.g52816.view.InfoView;
+import esi.g52816.view.View;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -28,24 +37,16 @@ public class mainTest extends Application {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        System.out.println("LOL");
-        DungeonView dungeonView = new DungeonView(d, g);
-        ButtonView buttonView = new ButtonView(g);
-        HistoryView historyView = new HistoryView(g);
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(dungeonView, buttonView);
-
-        HBox root = new HBox();
-        root.setSpacing(10);
-        root.setPadding(new Insets(15, 20, 10, 10));
-
-        root.getChildren().addAll(vbox, historyView);
-        //Creating a scene object 
-        Scene scene = new Scene(root, 1000, 700);
+        View root = new View(g);
+        stage.getIcons().add(new Image("https://image.winudf.com/v2/image1/Y29tLm1vZXJzY2hsaS5taW5pc29rb2Jhbl9pY29uXzE1NTMxNDUxMzhfMDcy/icon.png?w=170&fakeurl=1"));
+        BackgroundImage myBI= new BackgroundImage(new Image("https://i.pinimg.com/originals/b8/2f/28/b82f28a7e9c8fcb3868d3d94652c107c.gif",900,630,false,true),
+        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+          BackgroundSize.DEFAULT);
+        root.setBackground(new Background(myBI));
+        Scene scene = new Scene(root, 900, 630,Color.BLACK);
+        stage.setResizable(false);
         scene.setOnKeyPressed(new displacementEvent(g));
-
-        //Setting title to the Stage 
-        stage.setTitle("Loading an image");
+        stage.setTitle("SOKOBAN");
 
         //Adding scene to the stage 
         stage.setScene(scene);

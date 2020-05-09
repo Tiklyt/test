@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package esi.g52816.Events;
 
 import esi.g52816.model.Direction;
 import esi.g52816.model.Game;
 import javafx.event.EventHandler;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -18,7 +11,7 @@ import javafx.scene.input.MouseEvent;
  */
 public class displacementEvent implements EventHandler<KeyEvent> {
 
-    private Game g;
+    private final Game g;
 
     public displacementEvent(Game g) {
         this.g = g;

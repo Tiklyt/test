@@ -48,9 +48,6 @@ public class Game extends Observable {
         return _nbStorageFull;
     }
 
-    
-    
-    
     /**
      * Allow to execute a Move if the command can be done.
      *
@@ -65,6 +62,7 @@ public class Game extends Observable {
         }
     }
 
+    
     /**
      * Move the Player in a specific direction
      *
@@ -75,7 +73,7 @@ public class Game extends Observable {
 
         Position nextPos = new Position(_posPlayer);
         nextPos.move(d.getRow(), d.getColumn());
-        HistoryMove historyMove = new HistoryMove(new Position(_posPlayer), new Position(nextPos), false);
+        HistoryMove historyMove = new HistoryMove(new Position(_posPlayer), new Position(nextPos), false, d);
         Position doubleNextPos = new Position(nextPos);
         doubleNextPos.move(d.getRow(), d.getColumn());
 
@@ -87,9 +85,13 @@ public class Game extends Observable {
             _posPlayer = new Position(nextPos);
             historyMove.setPushedBox(true);
             hlist.add(historyMove);
+            if (_dungeon.isStorage(nextPos)) {
+                decNbStorageFulled();
+            }
             if (_dungeon.isStorage(doubleNextPos)) {
                 incNbStorageFulled();
             }
+            incNbMovement();
             setChanged();
             notifyObservers();
             return true;
@@ -99,6 +101,7 @@ public class Game extends Observable {
             _dungeon.changeToVoid(_posPlayer);
             _posPlayer = new Position(nextPos);
             hlist.add(historyMove);
+            incNbMovement();
             setChanged();
             notifyObservers();
             return true;
@@ -107,11 +110,24 @@ public class Game extends Observable {
             _dungeon.changeToVoid(_posPlayer);
             _posPlayer = new Position(nextPos);
             hlist.add(historyMove);
+            incNbMovement();
             setChanged();
             notifyObservers();
             return true;
         }
         return false;
+    }
+
+    public void setNbMovement(int _nbMovement) {
+        this._nbMovement = _nbMovement;
+        setChanged();
+        notifyObservers();
+    }
+
+    public void setNbStorageFull(int _nbStorageFull) {
+        this._nbStorageFull = _nbStorageFull;
+        setChanged();
+        notifyObservers();
     }
 
     public void incNbStorageFulled() {
@@ -134,6 +150,23 @@ public class Game extends Observable {
         notifyObservers();
     }
 
+    public void decNbStorageFulled() {
+        if (_nbStorageFull > 0) {
+            _nbStorageFull--;
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    public void clearInfo() {
+        _nbMovement = 0;
+        _nbStorage = 0;
+        _nbStorageFull = 0;
+        hlist.clear();
+        setChanged();
+        notifyObservers();
+    }
+
     public Dungeon getDungeons() {
         return _dungeon;
     }
@@ -142,6 +175,9 @@ public class Game extends Observable {
      * Allow to undo a action
      */
     public void undo() {
+        if(hlist.size()>0){
+            hlist.remove(hlist.size()-1);
+        }
         _undoManager.undo();
     }
 
@@ -182,15 +218,7 @@ public class Game extends Observable {
      * @return true or false
      */
     public boolean isOver() {
-        for (int i = 0; i < _dungeon.getPlate().length; i++) {
-            for (int j = 0; j < _dungeon.getPlate().length; j++) {
-                if (!_dungeon.getPlate()[i][j].isBox()
-                        && _dungeon.getPlate()[i][j].isStorage()) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return _nbStorage == _nbStorageFull;
     }
 
     /**
@@ -203,6 +231,8 @@ public class Game extends Observable {
             _dungeon.DungeonLoader(_dungeon.getCurrentLevel() - 1);
             _posPlayer = _dungeon.playerFinder();
             _undoManager = new UndoManager();
+            clearInfo();
+            _nbStorage = _dungeon.StorageFinder();
             return true;
         }
         return false;
@@ -218,6 +248,8 @@ public class Game extends Observable {
             _dungeon.DungeonLoader(_dungeon.getCurrentLevel() + 1);
             _posPlayer = _dungeon.playerFinder();
             _undoManager = new UndoManager();
+            clearInfo();
+            _nbStorage = _dungeon.StorageFinder();
             return true;
         }
         return false;
@@ -230,6 +262,7 @@ public class Game extends Observable {
         _dungeon.restartLevel();
         _undoManager = new UndoManager();
         _posPlayer = _dungeon.playerFinder();
+        clearInfo();
     }
 
     /**

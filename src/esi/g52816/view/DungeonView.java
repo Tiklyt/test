@@ -14,7 +14,7 @@ public class DungeonView extends GridPane {
     private Dungeon d;
     private Game g;
 
-    public DungeonView(Dungeon d, Game g) throws FileNotFoundException {
+    public DungeonView(Dungeon d, Game g)  {
         this.d = d;
         this.g = g;
         for (int i = 0; i < d.getPlate().length; i++) {

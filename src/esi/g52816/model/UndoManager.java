@@ -1,18 +1,21 @@
-
 package esi.g52816.model;
 
+import java.util.Observable;
 import java.util.Stack;
 
 /**
- * //@srv: JAVADOC - à part ça, ta classe est top !
- * @author bilal
+ * Class managing the undo redo design pattern
+ *
+ * @author braro
  */
-public class UndoManager {
-    private Stack<Command> undoStack = new Stack<>(); // minuscule
-    private Stack<Command> redoStack  = new Stack<>();
+public class UndoManager extends Observable {
+
+    private Stack<Command> undoStack = new Stack<>();
+    private Stack<Command> redoStack = new Stack<>();
 
     /**
      * Undo the last command
+     *
      * @return true if success
      */
     public boolean undo() {
@@ -26,6 +29,7 @@ public class UndoManager {
 
     /**
      * Redo the last command
+     *
      * @return true if success
      */
     public boolean redo() {
@@ -37,9 +41,11 @@ public class UndoManager {
         }
         return false;
     }
+
     /**
      * run the command received in parameter
-     * @param command  the command that will be executed
+     *
+     * @param command the command that will be executed
      */
     public void doIt(Command command) {
         command.execute();

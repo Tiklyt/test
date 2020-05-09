@@ -17,56 +17,34 @@ public class Square extends Observable {
     public Square() {
         this._typeSquare = SquareType.GROUND;
         this._typeEntity = EntityType.VOID;
-        System.out.println("res");
     }
 
+    /**
+     * Constructor allowing to do defensive copy with another Square
+     *
+     * @param square the square that will be copied
+     */
     public Square(Square square) {
         this._typeSquare = square._typeSquare;
         this._typeEntity = square._typeEntity;
-        System.out.println("res");
     }
 
-    public void setTypeEntity(EntityType _typeEntity) {
-        setChanged();
-        notifyObservers();
-        this._typeEntity = _typeEntity;
-    }
-
-    public void setTypeSquare(SquareType _typeSquare) {
-        setChanged();
-        notifyObservers();
-        this._typeSquare = _typeSquare;
-    }
-
+    /**
+     * Allow to get entity type from the class
+     *
+     * @return the EntityType
+     */
     public EntityType getTypeEntity() {
         return _typeEntity;
     }
 
+    /**
+     * Allow to get the type Square from the class
+     *
+     * @return the Square Type
+     */
     public SquareType getTypeSquare() {
         return _typeSquare;
-    }
-
-    /**
-     * Create a Square with parameter
-     *
-     * @param typeEntity the Entity that will be added to the Object
-     */
-    public Square(EntityType typeEntity) {
-        this._typeSquare = SquareType.GROUND;
-        this._typeEntity = typeEntity;
-        System.out.println("res");
-    }
-
-    /**
-     * Create a Square with 2 parameter
-     *
-     * @param typeSquare the TypeSquare
-     * @param typeEntity the TypeEntity
-     */
-    public Square(SquareType typeSquare, EntityType typeEntity) {
-        this._typeSquare = typeSquare;
-        this._typeEntity = typeEntity;
-        System.out.println("res");
     }
 
     /**
@@ -105,10 +83,20 @@ public class Square extends Observable {
         return _typeEntity == EntityType.VOID && _typeSquare == SquareType.GROUND;
     }
 
+    /**
+     * Check if the entityType is Void
+     *
+     * @return true or false
+     */
     public boolean isVoid() {
         return _typeEntity == EntityType.VOID;
     }
 
+    /**
+     * Check if the typeSquare is a ground
+     *
+     * @return true or false
+     */
     public boolean isGround() {
         return _typeSquare == SquareType.GROUND;
     }
@@ -120,6 +108,30 @@ public class Square extends Observable {
      */
     public boolean isStorage() {
         return _typeSquare == SquareType.STORAGE;
+    }
+
+    /**
+     * Allow to change the type entity to the new Entity type received in
+     * parameter
+     *
+     * @param _typeEntity the entity type that will be copied.
+     */
+    public void setTypeEntity(EntityType _typeEntity) {
+        this._typeEntity = _typeEntity;
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * Allow to change the type square to the new Square type receive din
+     * parameter
+     *
+     * @param _typeSquare
+     */
+    public void setTypeSquare(SquareType _typeSquare) {
+        this._typeSquare = _typeSquare;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -175,15 +187,12 @@ public class Square extends Observable {
         notifyObservers();
     }
 
+    /**
+     * Change to storage
+     */
     public void changeToStorage() {
         _typeSquare = SquareType.STORAGE;
         setChanged();
         notifyObservers();
     }
-
-    @Override
-    public String toString() {
-        return "Square{" + "_typeSquare=" + _typeSquare + ", _typeEntity=" + _typeEntity + '}';
-    }
-
 }

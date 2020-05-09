@@ -33,7 +33,10 @@ public class HistoryView extends TableView<HistoryMove> implements Observer {
         TableColumn<HistoryMove, String> boxPushed = new TableColumn<>("box pushed");
         boxPushed.setCellValueFactory(new PropertyValueFactory<>("pushedBox"));
         
-        this.getColumns().addAll(startPos, endPos, boxPushed);
+        TableColumn<HistoryMove, String> direction = new TableColumn<>("direction");
+        direction.setCellValueFactory(new PropertyValueFactory<>("direction"));
+        
+        this.getColumns().addAll(startPos, endPos,direction,boxPushed);
         setItems(historyList);
     }
     

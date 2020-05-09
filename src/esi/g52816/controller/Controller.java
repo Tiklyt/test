@@ -1,6 +1,5 @@
 
 package esi.g52816.controller;
-import esi.g52816.model.Direction;
 import esi.g52816.model.Game;
 import esi.g52816.view.View;
 import javafx.application.Application;

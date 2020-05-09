@@ -6,46 +6,40 @@ package esi.g52816.model;
  */
 public class MoveCommand implements Command {
 
-    private Game _game;
-    private Direction _direction;
-    private Position _posPlayer;
-    private Square _currentSquare;
-    private Square _nextSquare;
-    private Square _doubleNextSquare;
+    private final Game game;
+    private final Direction direction;
+    private final Position posPlayer;
+    private final Square currentSquare;
+    private Square nextSquare;
+    private Square doubleNextSquare;
+    private int nbMoves = 0;
+    private int nbSquareFilled = 0;
 
     /**
-     * Allow to create a Move Command
+     * Allow to create a Move Command The class store information about the game
+     * like number of moves, of squareFilled, etc...
      *
      * @param game the game where the move will be applied
      * @param _direction the direction where the move will be done
      */
     public MoveCommand(Game game, Direction _direction) {
-        this._game = game;
-        this._posPlayer = new Position(game.getPosPlayer());
-        this._direction = _direction;
-        System.out.println("DONE");
-        Position nextPos = new Position(_posPlayer);
+        this.game = game;
+        this.posPlayer = new Position(game.getPosPlayer());
+        this.direction = _direction;
+        Position nextPos = new Position(posPlayer);
         nextPos.move(_direction.getRow(), _direction.getColumn());
 
         Position doubleNextPos = new Position(nextPos);
         doubleNextPos.move(_direction.getRow(), _direction.getColumn());
+        nbMoves = game.getNbMovement();
+        nbSquareFilled = game.getNbStorageFull();
+        currentSquare = new Square(game.getPlate()[posPlayer.getX()][posPlayer.getY()]);
 
-        _currentSquare = new Square(_game.getPlate()[_posPlayer.getX()][_posPlayer.getY()]);
-
-        //_currentSquare.setTypeEntity(_game.getPlate()[_posPlayer.getX()][_posPlayer.getY()].getTypeEntity());
-       // _currentSquare.setTypeSquare(_game.getPlate()[_posPlayer.getX()][_posPlayer.getY()].getTypeSquare());
-
-        if (_game.isInside(nextPos)) {
-            _nextSquare = new Square(_game.getPlate()[nextPos.getX()][nextPos.getY()]);
-
-            //_nextSquare.setTypeEntity(_game.getPlate()[nextPos.getX()][nextPos.getY()].getTypeEntity());
-            //_nextSquare.setTypeSquare(_game.getPlate()[nextPos.getX()][nextPos.getY()].getTypeSquare());
+        if (game.isInside(nextPos)) {
+            nextSquare = new Square(game.getPlate()[nextPos.getX()][nextPos.getY()]);
         }
-        if (_game.isInside(doubleNextPos)) {
-            _doubleNextSquare = new Square(_game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()]);
-
-            //_doubleNextSquare.setTypeEntity(_game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()].getTypeEntity());
-            //_doubleNextSquare.setTypeSquare(_game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()].getTypeSquare());
+        if (game.isInside(doubleNextPos)) {
+            doubleNextSquare = new Square(game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()]);
         }
 
     }
@@ -56,12 +50,12 @@ public class MoveCommand implements Command {
      * @return true or false
      */
     public boolean isInside() {
-        Position NextPos = new Position(_posPlayer);
-        NextPos.move(_direction.getRow(), _direction.getColumn());
+        Position NextPos = new Position(posPlayer);
+        NextPos.move(direction.getRow(), direction.getColumn());
 
         Position doubleNextPos = new Position(NextPos);
-        doubleNextPos.move(_direction.getRow(), _direction.getColumn());
-        return _game.isInside(NextPos) && _game.isInside(doubleNextPos);
+        doubleNextPos.move(direction.getRow(), direction.getColumn());
+        return game.isInside(NextPos) && game.isInside(doubleNextPos);
     }
 
     /**
@@ -69,35 +63,28 @@ public class MoveCommand implements Command {
      */
     @Override
     public void execute() {
-        System.out.println("DONE");
-        _game.move(_direction);
+        game.move(direction);
     }
 
     /**
-     * unexecute the command
+     * unexecute the command , we have the old data to "rollback" to the
+     * previous scene , so the function restore The square characteristics and
+     * number of movements done and number of filled Storage
      */
     @Override
     public void unexecute() {
-        System.out.println("UNDONE");
-        Position NextPos = new Position(_posPlayer);
-        NextPos.move(_direction.getRow(), _direction.getColumn());
 
+        Position currentPos = new Position(posPlayer);
+        Position NextPos = new Position(posPlayer);
+        NextPos.move(direction.getRow(), direction.getColumn());
         Position doubleNextPos = new Position(NextPos);
-        doubleNextPos.move(_direction.getRow(), _direction.getColumn());
+        doubleNextPos.move(direction.getRow(), direction.getColumn());
 
-        if (_game.isInside(NextPos) && _game.isInside(doubleNextPos)) {
+        game.setNbStorageFull(nbSquareFilled);
+        game.setNbMovement(nbMoves);
 
-            _game.getPlate()[_posPlayer.getX()][_posPlayer.getY()].setTypeEntity(_currentSquare.getTypeEntity());
-            _game.getPlate()[_posPlayer.getX()][_posPlayer.getY()].setTypeSquare(_currentSquare.getTypeSquare());
-
-            _game.getPlate()[NextPos.getX()][NextPos.getY()].setTypeEntity(_nextSquare.getTypeEntity());
-            _game.getPlate()[NextPos.getX()][NextPos.getY()].setTypeSquare(_nextSquare.getTypeSquare());
-
-            _game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()].setTypeEntity(_doubleNextSquare.getTypeEntity());
-            _game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()].setTypeSquare(_doubleNextSquare.getTypeSquare());
-
-            _game.setPosPlayer(new Position(_posPlayer));
-
+        if (game.isInside(NextPos) && game.isInside(doubleNextPos)) {
+            rollbackAction(currentPos, NextPos, doubleNextPos);
         }
 
     }
@@ -112,4 +99,16 @@ public class MoveCommand implements Command {
         return isInside();
     }
 
+    private void rollbackAction(Position currentPos, Position NextPos, Position doubleNextPos) {
+        game.getPlate()[posPlayer.getX()][posPlayer.getY()].setTypeEntity(currentSquare.getTypeEntity());
+        game.getPlate()[posPlayer.getX()][posPlayer.getY()].setTypeSquare(currentSquare.getTypeSquare());
+
+        game.getPlate()[NextPos.getX()][NextPos.getY()].setTypeEntity(nextSquare.getTypeEntity());
+        game.getPlate()[NextPos.getX()][NextPos.getY()].setTypeSquare(nextSquare.getTypeSquare());
+
+        game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()].setTypeEntity(doubleNextSquare.getTypeEntity());
+        game.getPlate()[doubleNextPos.getX()][doubleNextPos.getY()].setTypeSquare(doubleNextSquare.getTypeSquare());
+
+        game.setPosPlayer(new Position(posPlayer));
+    }
 }
