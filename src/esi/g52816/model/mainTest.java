@@ -33,18 +33,17 @@ public class mainTest extends Application {
         ButtonView buttonView = new ButtonView(g);
         HistoryView historyView = new HistoryView(g);
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(dungeonView,buttonView);
+        vbox.getChildren().addAll(dungeonView, buttonView);
 
-        
         HBox root = new HBox();
         root.setSpacing(10);
-        root.setPadding(new Insets(15,20, 10,10));
-        
-        root.getChildren().addAll(vbox,historyView);
+        root.setPadding(new Insets(15, 20, 10, 10));
+
+        root.getChildren().addAll(vbox, historyView);
         //Creating a scene object 
         Scene scene = new Scene(root, 1000, 700);
         scene.setOnKeyPressed(new displacementEvent(g));
-        
+
         //Setting title to the Stage 
         stage.setTitle("Loading an image");
 

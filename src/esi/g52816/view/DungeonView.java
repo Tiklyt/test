@@ -1,6 +1,5 @@
 package esi.g52816.view;
 
-import esi.g52816.Events.displacementEvent;
 import esi.g52816.model.Dungeon;
 import esi.g52816.model.Game;
 import esi.g52816.model.Position;

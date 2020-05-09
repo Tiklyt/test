@@ -12,10 +12,12 @@ public class Game extends Observable {
 
     private Dungeon _dungeon; //|srv: en Java pas de _
     private Position _posPlayer;
+    private int _nbMovement = 0;
+    private int _nbStorage = 0;
+    private int _nbStorageFull = 0;
+
     private UndoManager _undoManager = new UndoManager();
     private ObservableList<HistoryMove> hlist;
-
-    
 
     /**
      * Create a game in a level
@@ -26,13 +28,29 @@ public class Game extends Observable {
         _dungeon = new Dungeon();
         _dungeon.DungeonLoader(level);
         _posPlayer = _dungeon.playerFinder();
+        _nbStorage = _dungeon.StorageFinder();
         hlist = FXCollections.observableArrayList();
     }
-    
+
     public ObservableList<HistoryMove> getHlist() {
         return hlist;
     }
 
+    public int getNbMovement() {
+        return _nbMovement;
+    }
+
+    public int getNbStorage() {
+        return _nbStorage;
+    }
+
+    public int getNbStorageFull() {
+        return _nbStorageFull;
+    }
+
+    
+    
+    
     /**
      * Allow to execute a Move if the command can be done.
      *
@@ -69,6 +87,9 @@ public class Game extends Observable {
             _posPlayer = new Position(nextPos);
             historyMove.setPushedBox(true);
             hlist.add(historyMove);
+            if (_dungeon.isStorage(doubleNextPos)) {
+                incNbStorageFulled();
+            }
             setChanged();
             notifyObservers();
             return true;
@@ -91,6 +112,26 @@ public class Game extends Observable {
             return true;
         }
         return false;
+    }
+
+    public void incNbStorageFulled() {
+        _nbStorageFull++;
+        setChanged();
+        notifyObservers();
+    }
+
+    public void incNbMovement() {
+        _nbMovement++;
+        setChanged();
+        notifyObservers();
+    }
+
+    public void decNbMovement() {
+        if (_nbMovement > 0) {
+            _nbMovement--;
+        }
+        setChanged();
+        notifyObservers();
     }
 
     public Dungeon getDungeons() {

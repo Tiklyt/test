@@ -28,7 +28,6 @@ public class Dungeon { //@srv: trop de méthode public !
         DungeonSearcher();
     }
 
-    
     /**
      * load a Dungeon in the game
      *
@@ -40,14 +39,13 @@ public class Dungeon { //@srv: trop de méthode public !
         String result = stringCleaner(levels[level]) + " ";
         stringSearcher(result);
     }
-    
+
     /**
      * restart a level
      */
     public void restartLevel() {
         DungeonLoader(currentLevel);
     }
-
 
     /**
      * Transform a string into a object
@@ -93,6 +91,18 @@ public class Dungeon { //@srv: trop de méthode public !
                 k++;
             }
         }
+    }
+
+    public int StorageFinder() {
+        int counter = 0;
+        for (int i = 0; i < plate.length; i++) {
+            for (int j = 0; j < plate[0].length; j++) {
+                if (plate[i][j].isStorage()) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
     }
 
     /**
@@ -222,8 +232,8 @@ public class Dungeon { //@srv: trop de méthode public !
     public boolean isStorage(Position p) {
         return plate[p.getX()][p.getY()].isStorage();
     }
-    
-    public boolean isVoid(Position p){
+
+    public boolean isVoid(Position p) {
         return plate[p.getX()][p.getY()].isVoid();
     }
 
