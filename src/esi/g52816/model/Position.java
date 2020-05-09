@@ -88,4 +88,9 @@ public class Position {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "("+_x + ";"+_y+")";
+    }
+
 }

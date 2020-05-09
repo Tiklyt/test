@@ -1,14 +1,21 @@
 package esi.g52816.model;
 
+import java.util.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author bilal
  */
-public class Game {
+public class Game extends Observable {
 
     private Dungeon _dungeon; //|srv: en Java pas de _
     private Position _posPlayer;
     private UndoManager _undoManager = new UndoManager();
+    private ObservableList<HistoryMove> hlist;
+
+    
 
     /**
      * Create a game in a level
@@ -19,6 +26,11 @@ public class Game {
         _dungeon = new Dungeon();
         _dungeon.DungeonLoader(level);
         _posPlayer = _dungeon.playerFinder();
+        hlist = FXCollections.observableArrayList();
+    }
+    
+    public ObservableList<HistoryMove> getHlist() {
+        return hlist;
     }
 
     /**
@@ -27,9 +39,9 @@ public class Game {
      * @param d the direction of the Move
      */
     public void moveExecute(Direction d) {
-        
+
         Command c = new MoveCommand(this, d);
-        
+
         if (c.canExecute()) {
             _undoManager.doIt(new MoveCommand(this, d));
         }
@@ -42,10 +54,10 @@ public class Game {
      * @return true or false if done or not
      */
     public boolean move(Direction d) {
-        
+
         Position nextPos = new Position(_posPlayer);
         nextPos.move(d.getRow(), d.getColumn());
-
+        HistoryMove historyMove = new HistoryMove(new Position(_posPlayer), new Position(nextPos), false);
         Position doubleNextPos = new Position(nextPos);
         doubleNextPos.move(d.getRow(), d.getColumn());
 
@@ -55,21 +67,33 @@ public class Game {
             _dungeon.changeToPlayer(nextPos);
             _dungeon.changeToBox(doubleNextPos);
             _posPlayer = new Position(nextPos);
+            historyMove.setPushedBox(true);
+            hlist.add(historyMove);
+            setChanged();
+            notifyObservers();
             return true;
-        }  else if (_dungeon.isVoidGround(nextPos)) {
+        } else if (_dungeon.isVoidGround(nextPos)) {
             System.out.println("moved3");
             _dungeon.changeToPlayer(nextPos);
             _dungeon.changeToVoid(_posPlayer);
             _posPlayer = new Position(nextPos);
-        } else if(_dungeon.isStorage(nextPos ) && _dungeon.isVoid(nextPos)){
+            hlist.add(historyMove);
+            setChanged();
+            notifyObservers();
+            return true;
+        } else if (_dungeon.isStorage(nextPos) && _dungeon.isVoid(nextPos)) {
             _dungeon.changeToPlayer(nextPos);
             _dungeon.changeToVoid(_posPlayer);
             _posPlayer = new Position(nextPos);
+            hlist.add(historyMove);
+            setChanged();
+            notifyObservers();
+            return true;
         }
         return false;
     }
-    
-    public Dungeon getDungeons(){
+
+    public Dungeon getDungeons() {
         return _dungeon;
     }
 
