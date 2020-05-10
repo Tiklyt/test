@@ -47,7 +47,7 @@ public class SquareView extends StackPane implements Observer {
     private void settingsFinder() {
         try {
             if (square.isWall()) {
-                groundImage = new ImageView(new Image(new FileInputStream("src\\image\\wall.png")));
+                groundImage = new ImageView(new Image(new FileInputStream("src\\image\\wallground.png")));
                 entityImage = new ImageView(new Image(new FileInputStream("src\\image\\invisible.png")));
             } else if (square.isStorage()) {
                 groundImage = new ImageView(new Image(new FileInputStream("src\\image\\storage.png")));

@@ -10,8 +10,8 @@ import java.util.Stack;
  */
 public class UndoManager extends Observable {
 
-    private Stack<Command> undoStack = new Stack<>();
-    private Stack<Command> redoStack = new Stack<>();
+    private final Stack<Command> undoStack = new Stack<>();
+    private final Stack<Command> redoStack = new Stack<>();
 
     /**
      * Undo the last command
