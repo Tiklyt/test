@@ -20,17 +20,17 @@ public class MoveCommand implements Command {
      * like number of moves, of squareFilled, etc...
      *
      * @param game the game where the move will be applied
-     * @param _direction the direction where the move will be done
+     * @param direction the direction where the move will be done
      */
-    public MoveCommand(Game game, Direction _direction) {
+    public MoveCommand(Game game, Direction direction) {
         this.game = game;
         this.posPlayer = new Position(game.getPosPlayer());
-        this.direction = _direction;
+        this.direction = direction;
         Position nextPos = new Position(posPlayer);
-        nextPos.move(_direction.getRow(), _direction.getColumn());
+        nextPos.move(direction.getRow(), direction.getColumn());
 
         Position doubleNextPos = new Position(nextPos);
-        doubleNextPos.move(_direction.getRow(), _direction.getColumn());
+        doubleNextPos.move(direction.getRow(), direction.getColumn());
         nbMoves = game.getNbMovement();
         nbSquareFilled = game.getNbStorageFull();
         currentSquare = new Square(game.getPlate()[posPlayer.getX()][posPlayer.getY()]);

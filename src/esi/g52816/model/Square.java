@@ -8,15 +8,15 @@ import java.util.Observable;
  */
 public class Square extends Observable {
 
-    private SquareType _typeSquare;
-    private EntityType _typeEntity;
+    private SquareType typeSquare;
+    private EntityType typeEntity;
 
     /**
      * Create a default Square with a ground SquareType and a void typeEntity
      */
     public Square() {
-        this._typeSquare = SquareType.GROUND;
-        this._typeEntity = EntityType.VOID;
+        this.typeSquare = SquareType.GROUND;
+        this.typeEntity = EntityType.VOID;
     }
 
     /**
@@ -25,13 +25,13 @@ public class Square extends Observable {
      * @param square the square that will be copied
      */
     public Square(Square square) {
-        this._typeSquare = square._typeSquare;
-        this._typeEntity = square._typeEntity;
+        this.typeSquare = square.typeSquare;
+        this.typeEntity = square.typeEntity;
     }
 
-    public Square(SquareType _typeSquare, EntityType _typeEntity) {
-        this._typeSquare = _typeSquare;
-        this._typeEntity = _typeEntity;
+    public Square(SquareType typeSquare, EntityType typeEntity) {
+        this.typeSquare = typeSquare;
+        this.typeEntity = typeEntity;
     }
     
     
@@ -43,7 +43,7 @@ public class Square extends Observable {
      * @return the EntityType
      */
     public EntityType getTypeEntity() {
-        return _typeEntity;
+        return typeEntity;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Square extends Observable {
      * @return the Square Type
      */
     public SquareType getTypeSquare() {
-        return _typeSquare;
+        return typeSquare;
     }
 
     /**
@@ -61,7 +61,7 @@ public class Square extends Observable {
      * @return true or false
      */
     public boolean isWall() {
-        return _typeSquare == SquareType.WALL;
+        return typeSquare == SquareType.WALL;
     }
 
     /**
@@ -70,7 +70,7 @@ public class Square extends Observable {
      * @return true or false
      */
     public boolean isBox() {
-        return _typeEntity == EntityType.BOX;
+        return typeEntity == EntityType.BOX;
     }
 
     /**
@@ -79,7 +79,7 @@ public class Square extends Observable {
      * @return true or false
      */
     public boolean isPlayer() {
-        return _typeEntity == EntityType.PLAYER;
+        return typeEntity == EntityType.PLAYER;
     }
 
     /**
@@ -88,7 +88,7 @@ public class Square extends Observable {
      * @return
      */
     public boolean isVoidGround() {
-        return _typeEntity == EntityType.VOID && _typeSquare == SquareType.GROUND;
+        return typeEntity == EntityType.VOID && typeSquare == SquareType.GROUND;
     }
 
     /**
@@ -97,7 +97,7 @@ public class Square extends Observable {
      * @return true or false
      */
     public boolean isVoid() {
-        return _typeEntity == EntityType.VOID;
+        return typeEntity == EntityType.VOID;
     }
 
     /**
@@ -106,7 +106,7 @@ public class Square extends Observable {
      * @return true or false
      */
     public boolean isGround() {
-        return _typeSquare == SquareType.GROUND;
+        return typeSquare == SquareType.GROUND;
     }
 
     /**
@@ -115,17 +115,17 @@ public class Square extends Observable {
      * @return true or false
      */
     public boolean isStorage() {
-        return _typeSquare == SquareType.STORAGE;
+        return typeSquare == SquareType.STORAGE;
     }
 
     /**
      * Allow to change the type entity to the new Entity type received in
      * parameter
      *
-     * @param _typeEntity the entity type that will be copied.
+     * @param typeEntity the entity type that will be copied.
      */
-    public void setTypeEntity(EntityType _typeEntity) {
-        this._typeEntity = _typeEntity;
+    public void setTypeEntity(EntityType typeEntity) {
+        this.typeEntity = typeEntity;
         setChanged();
         notifyObservers();
     }
@@ -134,10 +134,10 @@ public class Square extends Observable {
      * Allow to change the type square to the new Square type receive din
      * parameter
      *
-     * @param _typeSquare
+     * @param typeSquare
      */
-    public void setTypeSquare(SquareType _typeSquare) {
-        this._typeSquare = _typeSquare;
+    public void setTypeSquare(SquareType typeSquare) {
+        this.typeSquare = typeSquare;
         setChanged();
         notifyObservers();
     }
@@ -146,7 +146,7 @@ public class Square extends Observable {
      * Change to a Box
      */
     public void changeToBox() {
-        _typeEntity = EntityType.BOX;
+        typeEntity = EntityType.BOX;
         setChanged();
         notifyObservers();
     }
@@ -155,7 +155,7 @@ public class Square extends Observable {
      * Change to a player
      */
     public void changeToPlayer() {
-        _typeEntity = EntityType.PLAYER;
+        typeEntity = EntityType.PLAYER;
         setChanged();
         notifyObservers();
     }
@@ -164,13 +164,13 @@ public class Square extends Observable {
      * Change to a void
      */
     public void changeToVoid() {
-        _typeEntity = EntityType.VOID;
+        typeEntity = EntityType.VOID;
         setChanged();
         notifyObservers();
     }
 
     public void changeToGround() {
-        _typeSquare = SquareType.GROUND;
+        typeSquare = SquareType.GROUND;
         setChanged();
         notifyObservers();
     }
@@ -179,8 +179,8 @@ public class Square extends Observable {
      * Change to a void Ground
      */
     public void changeToVoidGround() {
-        _typeEntity = EntityType.VOID;
-        _typeSquare = SquareType.GROUND;
+        typeEntity = EntityType.VOID;
+        typeSquare = SquareType.GROUND;
         setChanged();
         notifyObservers();
     }
@@ -189,8 +189,8 @@ public class Square extends Observable {
      * Change to a Wall
      */
     public void changeToWall() {
-        _typeSquare = SquareType.WALL;
-        _typeEntity = EntityType.VOID;
+        typeSquare = SquareType.WALL;
+        typeEntity = EntityType.VOID;
         setChanged();
         notifyObservers();
     }
@@ -199,7 +199,7 @@ public class Square extends Observable {
      * Change to storage
      */
     public void changeToStorage() {
-        _typeSquare = SquareType.STORAGE;
+        typeSquare = SquareType.STORAGE;
         setChanged();
         notifyObservers();
     }

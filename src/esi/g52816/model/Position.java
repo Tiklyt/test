@@ -6,8 +6,8 @@ package esi.g52816.model;
  */
 public class Position {
 
-    private int _x;
-    private int _y;
+    private int x;
+    private int y;
 
     /**
      * Constructor of the Position class for creating the Position of a Square
@@ -16,8 +16,8 @@ public class Position {
      * @param column the column of the plate
      */
     public Position(int x, int y) {
-        this._x = x;
-        this._y = y;
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -26,8 +26,8 @@ public class Position {
      * @param copy the copy that will be "copied"
      */
     public Position(Position copy) {
-        this._x = copy.getX();
-        this._y = copy.getY();
+        this.x = copy.getX();
+        this.y = copy.getY();
     }
 
     /**
@@ -36,7 +36,7 @@ public class Position {
      * @return int
      */
     public int getX() {
-        return _x;
+        return x;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Position {
      * @return int
      */
     public int getY() {
-        return _y;
+        return y;
     }
 
     /**
@@ -55,15 +55,15 @@ public class Position {
      * @param dy dy
      */
     public void move(int dx, int dy) {
-        _x += dx;
-        _y += dy;
+        x += dx;
+        y += dy;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + this._x;
-        hash = 97 * hash + this._y;
+        hash = 97 * hash + this.x;
+        hash = 97 * hash + this.y;
         return hash;
     }
 
@@ -79,10 +79,10 @@ public class Position {
             return false;
         }
         final Position other = (Position) obj;
-        if (this._x != other._x) {
+        if (this.x != other.x) {
             return false;
         }
-        if (this._y != other._y) {
+        if (this.y != other.y) {
             return false;
         }
         return true;
@@ -90,7 +90,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return "("+_x + ";"+_y+")";
+        return "("+x + ";"+y+")";
     }
 
 }

@@ -24,7 +24,6 @@ public class Dungeon {
             }
         }
     }
-
     /**
      * load a Dungeon in the game
      *
@@ -40,7 +39,6 @@ public class Dungeon {
             }
         }
     }
-
     /**
      * restart a level
      */
@@ -65,7 +63,7 @@ public class Dungeon {
      *
      * @return true or false
      */
-    public Position playerFinder() { //@srv mieux vautr stocker sa position quelque part
+    public Position playerFinder() {
         for (int i = 0; i < plate.length; i++) {
             for (int j = 0; j < plate[i].length; j++) {
                 if (plate[i][j].isPlayer()) {
@@ -74,28 +72,6 @@ public class Dungeon {
             }
         }
         return null;
-    }
-
-    /**
-     * Clean a String
-     *
-     * @param toClean the String that will be cleaned
-     * @return new String cleaned
-     */
-    private String stringCleaner(String toClean) {
-        String result = "";
-        for (int i = 0; i < toClean.length(); i++) {
-            if (toClean.charAt(i) == '+'
-                    || toClean.charAt(i) == '*'
-                    || toClean.charAt(i) == '#'
-                    || toClean.charAt(i) == '$'
-                    || toClean.charAt(i) == '.'
-                    || toClean.charAt(i) == '@'
-                    || toClean.charAt(i) == ' ') {
-                result += toClean.charAt(i);
-            }
-        }
-        return result;
     }
 
     /**

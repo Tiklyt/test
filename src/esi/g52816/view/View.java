@@ -7,18 +7,24 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
+ * Represent the total view of the application
  *
  * @author bilal
  */
 public class View extends HBox {
 
-    private DungeonView dungeonView;
-    private HistoryView historyView;
-    private InfoView infoView;
-    private ButtonView buttonView;
-    private Game game;
+    private final DungeonView dungeonView;
+    private final HistoryView historyView;
+    private final InfoView infoView;
+    private final ButtonView buttonView;
+    private final Game game;
 
-    public View(Observable obs){
+    /**
+     * Create the view who take game in parameter
+     *
+     * @param obs the game
+     */
+    public View(Observable obs) {
         this.game = (Game) obs;
         this.dungeonView = new DungeonView(game.getDungeons(), game);
         this.infoView = new InfoView(game);
@@ -26,16 +32,17 @@ public class View extends HBox {
         this.buttonView = new ButtonView(game);
         initialize();
     }
-    
-    
-    public void initialize(){
+
+    /**
+     * Allow to initialize the general View
+     */
+    private void initialize() {
         historyView.autosize();
         setPadding(new Insets(30));
         setSpacing(50);
-        
         VBox subRoot = new VBox();
         subRoot.setSpacing(15);
-        subRoot.getChildren().addAll(dungeonView,buttonView,infoView);
-        this.getChildren().addAll(subRoot,historyView);
+        subRoot.getChildren().addAll(dungeonView, buttonView, infoView);
+        this.getChildren().addAll(subRoot, historyView);
     }
 }
