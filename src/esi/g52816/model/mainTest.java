@@ -32,7 +32,7 @@ public class mainTest extends Application {
     private Dungeon d = g.getDungeons();
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) {
         String musicFile = "src\\musicsokoban.mp3";
         Media sound = new Media(new File(musicFile).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
