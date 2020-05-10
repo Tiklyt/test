@@ -10,14 +10,14 @@ import javafx.collections.ObservableList;
  * @author bilal
  */
 public class Game extends Observable {
-
+    
     private final Dungeon dungeon;
     private Position posPlayer;
     private int nbMovement = 0;
     private int nbStorageSlot = 0;
     private int nbStorageFull = 0;
     private final Controller controller;
-
+    
     private UndoManager _undoManager = new UndoManager();
     private final ObservableList<HistoryMove> hlist;
 
@@ -41,9 +41,9 @@ public class Game extends Observable {
      * @param d the direction of the Move
      */
     public void moveExecute(Direction d) {
-
+        
         Command c = new MoveCommand(this, d);
-
+        
         if (c.canExecute()) {
             _undoManager.doIt(new MoveCommand(this, d));
         }
@@ -59,12 +59,17 @@ public class Game extends Observable {
         boolean b = false;
         Position nextPos = new Position(posPlayer);
         nextPos.move(d.getRow(), d.getColumn());
-        HistoryMove historyMove = new HistoryMove(new Position(posPlayer), new Position(nextPos), false, d);
         Position doubleNextPos = new Position(nextPos);
         doubleNextPos.move(d.getRow(), d.getColumn());
-
+        conditionsMoveChecker(nextPos, doubleNextPos, d);
+        checkOver();
+        return b;
+    }
+    
+    public void conditionsMoveChecker(Position nextPos, Position doubleNextPos, Direction d) {
+        HistoryMove historyMove = new HistoryMove(new Position(posPlayer), new Position(nextPos), false, d);
+        boolean b = false;
         if (canPushBox(nextPos, doubleNextPos)) {
-            System.out.println("moved1");
             dungeon.changeToVoid(posPlayer);
             dungeon.changeToPlayer(nextPos);
             dungeon.changeToBox(doubleNextPos);
@@ -78,18 +83,13 @@ public class Game extends Observable {
                 incNbStorageFulled();
             }
             incNbMovement();
-            setChanged();
-            notifyObservers();
             b = true;
         } else if (dungeon.isVoidGround(nextPos)) {
-            System.out.println("moved3");
             dungeon.changeToPlayer(nextPos);
             dungeon.changeToVoid(posPlayer);
             posPlayer = new Position(nextPos);
             hlist.add(historyMove);
             incNbMovement();
-            setChanged();
-            notifyObservers();
             b = true;
         } else if (dungeon.isStorage(nextPos) && dungeon.isVoid(nextPos)) {
             dungeon.changeToPlayer(nextPos);
@@ -97,17 +97,17 @@ public class Game extends Observable {
             posPlayer = new Position(nextPos);
             hlist.add(historyMove);
             incNbMovement();
-            setChanged();
-            notifyObservers();
             b = true;
         }
+    }
+    
+    public void checkOver() {
         if (isOver()) {
             controller.isOver();
             nextLevel();
             setChanged();
             notifyObservers();
         }
-        return b;
     }
 
     /**

@@ -6,6 +6,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 /**
  * This class represent the view of button with the user can interact with.The
@@ -30,10 +34,20 @@ public class ButtonView extends HBox {
     public ButtonView(Game g) {
         this.game = g;
         this.prevLevel = new Button("previous level");
+        prevLevel.setStyle("-fx-background-color: transparent;");;
+        prevLevel.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 12));
         this.nextLevel = new Button("next level");
+        this.nextLevel.setStyle("-fx-background-color: transparent;");
+        this.nextLevel.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 12));
         this.restart = new Button("restart");
+        this.restart.setStyle("-fx-background-color: transparent;");
+        this.restart.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 12));
         this.undo = new Button("undo");
+        this.undo.setStyle("-fx-background-color: transparent;");
+        this.undo.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 12));
         this.redo = new Button("redo");
+        this.redo.setStyle("-fx-background-color: transparent;");
+        this.redo.setFont(Font.font("Algerian", FontWeight.BOLD, FontPosture.REGULAR, 12));
         initialize();
         initializeEvent();
     }
