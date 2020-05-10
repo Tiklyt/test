@@ -1,6 +1,7 @@
 package esi.g52816.model;
 
 /**
+ * represent a command that store data of the game
  *
  * @author bilal
  */
@@ -31,6 +32,7 @@ public class MoveCommand implements Command {
 
         Position doubleNextPos = new Position(nextPos);
         doubleNextPos.move(direction.getRow(), direction.getColumn());
+
         nbMoves = game.getNbMovement();
         nbSquareFilled = game.getNbStorageFull();
         currentSquare = new Square(game.getPlate()[posPlayer.getX()][posPlayer.getY()]);

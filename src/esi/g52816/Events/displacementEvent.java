@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
 /**
+ * Event handler manage W S A D keyboard key to allow to move the player
  *
  * @author braro
  */
@@ -13,10 +14,21 @@ public class displacementEvent implements EventHandler<KeyEvent> {
 
     private final Game g;
 
+    /**
+     * Create a displacementEvent Handler
+     *
+     * @param g the game
+     */
     public displacementEvent(Game g) {
         this.g = g;
     }
 
+    /**
+     * Handle the event when ever the user press W (LEFT) S (DOWN) A (LEFT) D
+     * (RIGHT) I have a QWERTY keyboard ^^
+     *
+     * @param t the event that we can recover data like which key he pressed
+     */
     @Override
     public void handle(KeyEvent t) {
 

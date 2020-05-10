@@ -8,7 +8,6 @@ public class Dungeon {
 
     private Square[][] plate;
     private FileManager fileManager = new FileManager();
-    ;
     private final int DUNGEONS_LENGTH = fileManager.getDungeonLength();
     private int currentLevel;
 
@@ -24,6 +23,7 @@ public class Dungeon {
             }
         }
     }
+
     /**
      * load a Dungeon in the game
      *
@@ -39,6 +39,7 @@ public class Dungeon {
             }
         }
     }
+
     /**
      * restart a level
      */

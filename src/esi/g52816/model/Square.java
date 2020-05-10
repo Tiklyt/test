@@ -3,7 +3,7 @@ package esi.g52816.model;
 import java.util.Observable;
 
 /**
- *
+ * class representing a Square of the Dungeons
  * @author bilal
  */
 public class Square extends Observable {
@@ -33,9 +33,6 @@ public class Square extends Observable {
         this.typeSquare = typeSquare;
         this.typeEntity = typeEntity;
     }
-    
-    
-    
 
     /**
      * Allow to get entity type from the class

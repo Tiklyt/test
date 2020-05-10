@@ -20,22 +20,26 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
+ * Controller of the application and allow to launch the application
  *
  * @author bilal
  */
 public class Controller extends Application {
 
-    private final Game g = new Game(0,this);
+    private final Game g = new Game(0, this);
     private final View v = new View(g);
     private MediaPlayer mediaPlayer;
-    
+
     private static final String ICON = "https://image.winudf.com/v2/image1/Y29tLm1vZXJzY2h"
             + "saS5taW5pc29rb2Jhbl9pY29uXzE1NTMxNDUxMzhfMDcy/icon.png?w=170&fakeurl=1";
     private static final String BACKGROUND = "https://i.pinimg.com/originals/b8/"
             + "2f/28/b82f28a7e9c8fcb3868d3d94652c107c.gif";
 
+    /**
+     * Allow to start the application
+     */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         initializeMusic();
         stage.getIcons().add(new Image(ICON));
         BackgroundImage background = new BackgroundImage(new Image(BACKGROUND, 900, 630, false, true),
@@ -49,8 +53,11 @@ public class Controller extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    
-    public void isOver(){
+
+    /**
+     * Alert box show up when ever the user finished a level.
+     */
+    public void isOver() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("STATUS");
         alert.setHeaderText(null);
@@ -58,8 +65,10 @@ public class Controller extends Application {
         alert.showAndWait();
     }
 
-
-    public void initializeMusic() {
+    /**
+     * Initialize the music during the party
+     */
+    private void initializeMusic() {
         Media sound = new Media(new File("src\\musicsokoban.mp3").toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
@@ -67,6 +76,9 @@ public class Controller extends Application {
         mediaPlayer.play();
     }
 
+    /**
+     * main...
+     */
     public static void main(String[] args) {
         launch(args);
     }

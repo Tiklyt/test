@@ -11,15 +11,15 @@ import javafx.collections.ObservableList;
  */
 public class Game extends Observable {
 
-    private Dungeon _dungeon; //|srv: en Java pas de _
-    private Position _posPlayer;
-    private int _nbMovement = 0;
-    private int _nbStorage = 0;
-    private int _nbStorageFull = 0;
-    private Controller c;
+    private final Dungeon dungeon;
+    private Position posPlayer;
+    private int nbMovement = 0;
+    private int nbStorageSlot = 0;
+    private int nbStorageFull = 0;
+    private final Controller controller;
 
     private UndoManager _undoManager = new UndoManager();
-    private ObservableList<HistoryMove> hlist;
+    private final ObservableList<HistoryMove> hlist;
 
     /**
      * Create a game in a level
@@ -27,28 +27,12 @@ public class Game extends Observable {
      * @param level the level where start
      */
     public Game(int level, Controller c) {
-        this.c = c;
-        _dungeon = new Dungeon();
-        _dungeon.DungeonLoader(level);
-        _posPlayer = _dungeon.playerFinder();
-        _nbStorage = _dungeon.StorageFinder();
+        this.controller = c;
+        dungeon = new Dungeon();
+        dungeon.DungeonLoader(level);
+        posPlayer = dungeon.playerFinder();
+        nbStorageSlot = dungeon.StorageFinder();
         hlist = FXCollections.observableArrayList();
-    }
-
-    public ObservableList<HistoryMove> getHlist() {
-        return hlist;
-    }
-
-    public int getNbMovement() {
-        return _nbMovement;
-    }
-
-    public int getNbStorage() {
-        return _nbStorage;
-    }
-
-    public int getNbStorageFull() {
-        return _nbStorageFull;
     }
 
     /**
@@ -73,44 +57,44 @@ public class Game extends Observable {
      */
     public boolean move(Direction d) {
         boolean b = false;
-        Position nextPos = new Position(_posPlayer);
+        Position nextPos = new Position(posPlayer);
         nextPos.move(d.getRow(), d.getColumn());
-        HistoryMove historyMove = new HistoryMove(new Position(_posPlayer), new Position(nextPos), false, d);
+        HistoryMove historyMove = new HistoryMove(new Position(posPlayer), new Position(nextPos), false, d);
         Position doubleNextPos = new Position(nextPos);
         doubleNextPos.move(d.getRow(), d.getColumn());
 
         if (canPushBox(nextPos, doubleNextPos)) {
             System.out.println("moved1");
-            _dungeon.changeToVoid(_posPlayer);
-            _dungeon.changeToPlayer(nextPos);
-            _dungeon.changeToBox(doubleNextPos);
-            _posPlayer = new Position(nextPos);
+            dungeon.changeToVoid(posPlayer);
+            dungeon.changeToPlayer(nextPos);
+            dungeon.changeToBox(doubleNextPos);
+            posPlayer = new Position(nextPos);
             historyMove.setPushedBox(true);
             hlist.add(historyMove);
-            if (_dungeon.isStorage(nextPos)) {
+            if (dungeon.isStorage(nextPos)) {
                 decNbStorageFulled();
             }
-            if (_dungeon.isStorage(doubleNextPos)) {
+            if (dungeon.isStorage(doubleNextPos)) {
                 incNbStorageFulled();
             }
             incNbMovement();
             setChanged();
             notifyObservers();
             b = true;
-        } else if (_dungeon.isVoidGround(nextPos)) {
+        } else if (dungeon.isVoidGround(nextPos)) {
             System.out.println("moved3");
-            _dungeon.changeToPlayer(nextPos);
-            _dungeon.changeToVoid(_posPlayer);
-            _posPlayer = new Position(nextPos);
+            dungeon.changeToPlayer(nextPos);
+            dungeon.changeToVoid(posPlayer);
+            posPlayer = new Position(nextPos);
             hlist.add(historyMove);
             incNbMovement();
             setChanged();
             notifyObservers();
             b = true;
-        } else if (_dungeon.isStorage(nextPos) && _dungeon.isVoid(nextPos)) {
-            _dungeon.changeToPlayer(nextPos);
-            _dungeon.changeToVoid(_posPlayer);
-            _posPlayer = new Position(nextPos);
+        } else if (dungeon.isStorage(nextPos) && dungeon.isVoid(nextPos)) {
+            dungeon.changeToPlayer(nextPos);
+            dungeon.changeToVoid(posPlayer);
+            posPlayer = new Position(nextPos);
             hlist.add(historyMove);
             incNbMovement();
             setChanged();
@@ -118,64 +102,12 @@ public class Game extends Observable {
             b = true;
         }
         if (isOver()) {
-            c.isOver();
+            controller.isOver();
             nextLevel();
             setChanged();
             notifyObservers();
         }
         return b;
-    }
-
-    public void setNbMovement(int _nbMovement) {
-        this._nbMovement = _nbMovement;
-        setChanged();
-        notifyObservers();
-    }
-
-    public void setNbStorageFull(int _nbStorageFull) {
-        this._nbStorageFull = _nbStorageFull;
-        setChanged();
-        notifyObservers();
-    }
-
-    public void incNbStorageFulled() {
-        _nbStorageFull++;
-        setChanged();
-        notifyObservers();
-    }
-
-    public void incNbMovement() {
-        _nbMovement++;
-        setChanged();
-        notifyObservers();
-    }
-
-    public void decNbMovement() {
-        if (_nbMovement > 0) {
-            _nbMovement--;
-        }
-        setChanged();
-        notifyObservers();
-    }
-
-    public void decNbStorageFulled() {
-        if (_nbStorageFull > 0) {
-            _nbStorageFull--;
-            setChanged();
-            notifyObservers();
-        }
-    }
-
-    public void clearInfo() {
-        _nbMovement = 0;
-        _nbStorageFull = 0;
-        hlist.clear();
-        setChanged();
-        notifyObservers();
-    }
-
-    public Dungeon getDungeons() {
-        return _dungeon;
     }
 
     /**
@@ -196,50 +128,17 @@ public class Game extends Observable {
     }
 
     /**
-     * check if a Position isInside the Dungeons
-     *
-     * @param p the position p
-     * @return true or false
-     */
-    public boolean isInside(Position p) {
-        return _dungeon.isInside(p);
-    }
-
-    /**
-     * Check if the Player can push the box
-     *
-     * @param p1 the Position front of the player
-     * @param p2 the Position front of front of the player
-     * @return true or false
-     */
-    public boolean canPushBox(Position p1, Position p2) { //@srv: ce serait parfait si ceci se trouvait dans une classe Box, pareil pour le joueur.
-        //@srv: Box.canMove(...) box.move(...), player.canMove(...), player.move(...)
-        return _dungeon.isBox(p1)
-                && (_dungeon.isVoidGround(p2)
-                || (_dungeon.isStorage(p2) && _dungeon.isVoid(p2)));
-    }
-
-    /**
-     * check if dungeons is over
-     *
-     * @return true or false
-     */
-    public boolean isOver() {
-        return _nbStorage == _nbStorageFull;
-    }
-
-    /**
      * allow to back to the previous level
      *
      * @return true if done , false if not
      */
     public boolean previousLevel() {
-        if (_dungeon.getCurrentLevel() > 0) {
-            _dungeon.DungeonLoader(_dungeon.getCurrentLevel() - 1);
-            _posPlayer = _dungeon.playerFinder();
+        if (dungeon.getCurrentLevel() > 0) {
+            dungeon.DungeonLoader(dungeon.getCurrentLevel() - 1);
+            posPlayer = dungeon.playerFinder();
             _undoManager = new UndoManager();
             clearInfo();
-            _nbStorage = _dungeon.StorageFinder();
+            nbStorageSlot = dungeon.StorageFinder();
             setChanged();
             notifyObservers();
             return true;
@@ -253,12 +152,12 @@ public class Game extends Observable {
      * @return true if done, false if not
      */
     public boolean nextLevel() {
-        if (_dungeon.getCurrentLevel() < _dungeon.getNbLevel()) {
-            _dungeon.DungeonLoader(_dungeon.getCurrentLevel() + 1);
-            _posPlayer = _dungeon.playerFinder();
+        if (dungeon.getCurrentLevel() < dungeon.getNbLevel()) {
+            dungeon.DungeonLoader(dungeon.getCurrentLevel() + 1);
+            posPlayer = dungeon.playerFinder();
             _undoManager = new UndoManager();
             clearInfo();
-            _nbStorage = _dungeon.StorageFinder();
+            nbStorageSlot = dungeon.StorageFinder();
             setChanged();
             notifyObservers();
             return true;
@@ -270,37 +169,43 @@ public class Game extends Observable {
      * Restart the current level
      */
     public void restart() {
-        _dungeon.restartLevel();
+        dungeon.restartLevel();
         _undoManager = new UndoManager();
-        _posPlayer = _dungeon.playerFinder();
+        posPlayer = dungeon.playerFinder();
         clearInfo();
     }
 
     /**
-     * get the current position of the player
-     *
-     * @return a position
+     * Allow to clear nbMovement nBStorageFull and the historyList
      */
-    public Position getPosPlayer() {
-        return _posPlayer;
+    public void clearInfo() {
+        nbMovement = 0;
+        nbStorageFull = 0;
+        hlist.clear();
+        setChanged();
+        notifyObservers();
     }
 
     /**
-     * get the plate of the Dungeons
+     * set nb movement to int passed in parameter
      *
-     * @return a arrays of arrays of Square
+     * @param nbMovement the int that will be copied
      */
-    public Square[][] getPlate() {
-        return _dungeon.getPlate();
+    public void setNbMovement(int nbMovement) {
+        this.nbMovement = nbMovement;
+        setChanged();
+        notifyObservers();
     }
 
     /**
-     * get the current level of dungeons
+     * set nb Storage to int passed in parameter
      *
-     * @return a int
+     * @param nbStorageFull the int that will be copied
      */
-    public int getCurrentLevel() {
-        return _dungeon.getCurrentLevel();
+    public void setNbStorageFull(int nbStorageFull) {
+        this.nbStorageFull = nbStorageFull;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -309,6 +214,150 @@ public class Game extends Observable {
      * @param pos the position where the player will be
      */
     public void setPosPlayer(Position pos) {
-        _posPlayer = new Position(pos);
+        posPlayer = new Position(pos);
+    }
+
+    /**
+     * Increment of 1 nbStorageFull
+     */
+    public void incNbStorageFulled() {
+        nbStorageFull++;
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * Increment of 1 nbMovement
+     */
+    public void incNbMovement() {
+        nbMovement++;
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * Decrement by 1 nbMovement
+     */
+    public void decNbMovement() {
+        if (nbMovement > 0) {
+            nbMovement--;
+        }
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * Decrement by 1 nbStorageFull
+     */
+    public void decNbStorageFulled() {
+        if (nbStorageFull > 0) {
+            nbStorageFull--;
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    /**
+     * get the dungeons
+     *
+     * @return Dungeon
+     */
+    public Dungeon getDungeons() {
+        return dungeon;
+    }
+
+    /**
+     * get the list of historyMove
+     *
+     * @return hlist
+     */
+    public ObservableList<HistoryMove> getHlist() {
+        return hlist;
+    }
+
+    /**
+     * get the number of move done
+     *
+     * @return integer
+     */
+    public int getNbMovement() {
+        return nbMovement;
+    }
+
+    /**
+     * get the number of slot storage
+     *
+     * @return integer
+     */
+    public int getNbStorage() {
+        return nbStorageSlot;
+    }
+
+    /**
+     * get the number of storage full
+     *
+     * @return Integer
+     */
+    public int getNbStorageFull() {
+        return nbStorageFull;
+    }
+
+    /**
+     * get the current position of the player
+     *
+     * @return a position
+     */
+    public Position getPosPlayer() {
+        return posPlayer;
+    }
+
+    /**
+     * get the plate of the Dungeons
+     *
+     * @return a arrays of arrays of Square
+     */
+    public Square[][] getPlate() {
+        return dungeon.getPlate();
+    }
+
+    /**
+     * get the current level of dungeons
+     *
+     * @return a int
+     */
+    public int getCurrentLevel() {
+        return dungeon.getCurrentLevel();
+    }
+
+    /**
+     * check if a Position isInside the Dungeons
+     *
+     * @param p the position p
+     * @return true or false
+     */
+    public boolean isInside(Position p) {
+        return dungeon.isInside(p);
+    }
+
+    /**
+     * Check if the Player can push the box
+     *
+     * @param p1 the Position front of the player
+     * @param p2 the Position front of front of the player
+     * @return true or false
+     */
+    public boolean canPushBox(Position p1, Position p2) {
+        return dungeon.isBox(p1)
+                && (dungeon.isVoidGround(p2)
+                || (dungeon.isStorage(p2) && dungeon.isVoid(p2)));
+    }
+
+    /**
+     * check if dungeons is over
+     *
+     * @return true or false
+     */
+    public boolean isOver() {
+        return nbStorageSlot == nbStorageFull;
     }
 }

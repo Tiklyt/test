@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
+ * Allow to manage sokoban file to convert them into Java Object
  *
  * @author braro
  */
@@ -18,9 +19,12 @@ public class FileManager {
     private static final char BOX_GROUND = '$';
     private static final char STORAGE_VOID = '.';
     private static final char VOID_GROUND = ' ';
-    
+
     private final String[] levels;
 
+    /**
+     * create a file manager
+     */
     public FileManager() {
         String level = "";
         try {
@@ -30,6 +34,12 @@ public class FileManager {
         this.levels = level.split(";");
     }
 
+    /**
+     * Allow to load a specific level
+     *
+     * @param level the level that will be loaded
+     * @return the 2D array of Square
+     */
     public Square[][] levelLoader(int level) {
         Square[][] plate = new Square[DUNGEONS_LENGTH][DUNGEONS_LENGTH];
         for (int i = 0; i < DUNGEONS_LENGTH; i++) {
@@ -39,7 +49,7 @@ public class FileManager {
         }
         String toSearch = stringCleaner(levels[level]);
         int k = 0;
-        for (int i = 0; i < DUNGEONS_LENGTH; i++) {
+        for (int i = 0; i < DUNGEONS_LENGTH; i++) {     
             for (int j = 0; j < DUNGEONS_LENGTH; j++) {
                 switch (toSearch.charAt(k)) {
                     case PLAYER_STORAGE: //@srv: constantes !
@@ -77,14 +87,6 @@ public class FileManager {
         }
         return plate;
     }
-    
-    
-    public int getDungeonLength(){
-        return DUNGEONS_LENGTH;
-    }
-    public int getNbLevel(){
-        return levels.length-1;
-    }
 
     /**
      * Clean a String
@@ -107,4 +109,23 @@ public class FileManager {
         }
         return result;
     }
+
+    /**
+     * get the dungeons LENGTH
+     *
+     * @return integer
+     */
+    public int getDungeonLength() {
+        return DUNGEONS_LENGTH;
+    }
+
+    /**
+     * get the number of levels
+     *
+     * @return Integer
+     */
+    public int getNbLevel() {
+        return levels.length - 1;
+    }
+
 }

@@ -1,6 +1,7 @@
 package esi.g52816.model;
 
 /**
+ * representing a position in X Y board
  *
  * @author bilal
  */
@@ -12,8 +13,8 @@ public class Position {
     /**
      * Constructor of the Position class for creating the Position of a Square
      *
-     * @param row the row of the plate
-     * @param column the column of the plate
+     * @param x deltaX
+     * @param y deltaY
      */
     public Position(int x, int y) {
         this.x = x;
@@ -90,7 +91,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return "("+x + ";"+y+")";
+        return "(" + x + ";" + y + ")";
     }
 
 }
