@@ -4,6 +4,7 @@ import java.util.Observable;
 
 /**
  * class representing a Square of the Dungeons
+ *
  * @author bilal
  */
 public class Square extends Observable {

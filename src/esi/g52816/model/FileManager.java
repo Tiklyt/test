@@ -49,7 +49,7 @@ public class FileManager {
         }
         String toSearch = stringCleaner(levels[level]);
         int k = 0;
-        for (int i = 0; i < DUNGEONS_LENGTH; i++) {     
+        for (int i = 0; i < DUNGEONS_LENGTH; i++) {
             for (int j = 0; j < DUNGEONS_LENGTH; j++) {
                 switch (toSearch.charAt(k)) {
                     case PLAYER_STORAGE: //@srv: constantes !

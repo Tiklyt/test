@@ -2,6 +2,7 @@ package esi.g52816.model;
 
 /**
  * enum representing a SquareType
+ *
  * @author bilal
  */
 public enum SquareType {

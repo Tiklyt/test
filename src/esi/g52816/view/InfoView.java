@@ -14,9 +14,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
- * This class represent a VBox who manage the view
- * of the characteristics games and observe the observable game
- * and update when ever the game change.
+ * This class represent a VBox who manage the view of the characteristics games
+ * and observe the observable game and update when ever the game change.
+ *
  * @author braro
  */
 public class InfoView extends VBox implements Observer {

@@ -15,11 +15,11 @@ public interface Command {
      * unexecute the command;
      */
     void unexecute();
-    
-    
+
     /**
      * check if a command can be executed
+     *
      * @return true or false
      */
-    boolean  canExecute();
+    boolean canExecute();
 }
