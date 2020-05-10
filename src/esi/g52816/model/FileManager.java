@@ -62,11 +62,11 @@ public class FileManager {
                         plate[i][j].changeToBox();
                         plate[i][j].changeToGround();
                         break;
-                    case '.':
+                    case STORAGE_VOID:
                         plate[i][j].changeToStorage();
                         plate[i][j].changeToVoid();
                         break;
-                    case ' ':
+                    case VOID_GROUND:
                         plate[i][j].changeToVoidGround();
                         break;
                     default:
