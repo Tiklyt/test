@@ -29,6 +29,14 @@ public class Square extends Observable {
         this._typeEntity = square._typeEntity;
     }
 
+    public Square(SquareType _typeSquare, EntityType _typeEntity) {
+        this._typeSquare = _typeSquare;
+        this._typeEntity = _typeEntity;
+    }
+    
+    
+    
+
     /**
      * Allow to get entity type from the class
      *

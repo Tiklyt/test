@@ -1,31 +1,28 @@
 package esi.g52816.model;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 /**
  *
  * @author bilal
  */
-public class Dungeon { //@srv: trop de méthode public !
+public class Dungeon {
 
     private Square[][] plate;
-    private String[] levels; //@srv la gestion/traudction des fichiers doit se faire dans une classe dédiée.
+    private FileManager fileManager = new FileManager();
+    ;
+    private final int DUNGEONS_LENGTH = fileManager.getDungeonLength();
     private int currentLevel;
-    private static final int DUNGEONS_LENGTH = 8;
 
     /**
      * construct a Dungeon
      */
     public Dungeon() {
+        fileManager = new FileManager();
         plate = new Square[DUNGEONS_LENGTH][DUNGEONS_LENGTH];
         for (int i = 0; i < DUNGEONS_LENGTH; i++) {
             for (int j = 0; j < DUNGEONS_LENGTH; j++) {
                 plate[i][j] = new Square();
             }
         }
-        DungeonSearcher();
     }
 
     /**
@@ -35,9 +32,13 @@ public class Dungeon { //@srv: trop de méthode public !
      */
     public void DungeonLoader(int level) {
         currentLevel = level;
-        String present = levels[level];
-        String result = stringCleaner(levels[level]) + " ";
-        stringSearcher(result);
+        Square[][] copy = fileManager.levelLoader(level);
+        for (int i = 0; i < DUNGEONS_LENGTH; i++) {
+            for (int j = 0; j < DUNGEONS_LENGTH; j++) {
+                plate[i][j].setTypeEntity(copy[i][j].getTypeEntity());
+                plate[i][j].setTypeSquare(copy[i][j].getTypeSquare());
+            }
+        }
     }
 
     /**
@@ -45,52 +46,6 @@ public class Dungeon { //@srv: trop de méthode public !
      */
     public void restartLevel() {
         DungeonLoader(currentLevel);
-    }
-
-    /**
-     * Transform a string into a object
-     *
-     * @param toSearch the string that will be converted
-     */
-    private void stringSearcher(String toSearch) { //@srv traduction des fichiers dans un eclasse dédiée: XsbLoader.
-        int k = 0;
-        Position posPlayer = null;
-        for (int i = 0; i < DUNGEONS_LENGTH; i++) {
-            for (int j = 0; j < DUNGEONS_LENGTH; j++) {
-                switch (toSearch.charAt(k)) {
-                    case '+': //@srv: constantes !
-                        plate[i][j].changeToPlayer();
-                        plate[i][j].changeToStorage();
-                        break;
-                    case '*':
-                        plate[i][j].changeToStorage();
-                        plate[i][j].changeToBox();
-                        break;
-                    case '#':
-                        plate[i][j].changeToWall();
-                        plate[i][j].changeToVoid();
-                        break;
-                    case '@':
-                        plate[i][j].changeToPlayer();
-                        plate[i][j].changeToGround();
-                        break;
-                    case '$':
-                        plate[i][j].changeToBox();
-                        plate[i][j].changeToGround();
-                        break;
-                    case '.':
-                        plate[i][j].changeToStorage();
-                        plate[i][j].changeToVoid();
-                        break;
-                    case ' ':
-                        plate[i][j].changeToVoidGround();
-                        break;
-                    default:
-                        break;
-                }
-                k++;
-            }
-        }
     }
 
     public int StorageFinder() {
@@ -144,18 +99,6 @@ public class Dungeon { //@srv: trop de méthode public !
     }
 
     /**
-     * read a file of level
-     */
-    private void DungeonSearcher() {
-        String level = "";
-        try {
-            level = Files.readString(Paths.get("level.txt"));
-        } catch (IOException ex) {
-        }
-        this.levels = level.split(";");
-    }
-
-    /**
      * get the current level of the Dungeons
      *
      * @return a int
@@ -179,7 +122,7 @@ public class Dungeon { //@srv: trop de méthode public !
      * @return a int
      */
     public int getNbLevel() {
-        return levels.length;
+        return fileManager.getNbLevel();
     }
 
     /**

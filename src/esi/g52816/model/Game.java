@@ -244,7 +244,7 @@ public class Game extends Observable {
      * @return true if done, false if not
      */
     public boolean nextLevel() {
-        if (_dungeon.getCurrentLevel() + 1 < _dungeon.getNbLevel() - 1) {
+        if (_dungeon.getCurrentLevel() < _dungeon.getNbLevel()) {
             _dungeon.DungeonLoader(_dungeon.getCurrentLevel() + 1);
             _posPlayer = _dungeon.playerFinder();
             _undoManager = new UndoManager();
