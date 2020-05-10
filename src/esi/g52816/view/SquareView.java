@@ -37,21 +37,21 @@ public class SquareView extends StackPane implements Observer {
     private void settingsFinder() {
         try {
             if (square.isWall()) {
-                groundImage = new ImageView(new Image(new FileInputStream("src\\wall.png")));
-                entityImage = new ImageView(new Image(new FileInputStream("src\\invisible.png")));
+                groundImage = new ImageView(new Image(new FileInputStream("src\\image\\wall.png")));
+                entityImage = new ImageView(new Image(new FileInputStream("src\\image\\invisible.png")));
             } else if (square.isStorage()) {
-                groundImage = new ImageView(new Image(new FileInputStream("src\\storage.png")));
+                groundImage = new ImageView(new Image(new FileInputStream("src\\image\\storage.png")));
             } else if (square.isGround()) {
-                groundImage = new ImageView(new Image(new FileInputStream("src\\ground.png")));
+                groundImage = new ImageView(new Image(new FileInputStream("src\\image\\ground.png")));
             }
 
             if (square.isPlayer()) {
                 System.out.println("player");
-                entityImage = new ImageView(new Image(new FileInputStream("src\\player.png")));
+                entityImage = new ImageView(new Image(new FileInputStream("src\\image\\player.png")));
             } else if (square.isVoid()) {
-                entityImage = new ImageView(new Image(new FileInputStream("src\\invisible.png")));
+                entityImage = new ImageView(new Image(new FileInputStream("src\\image\\invisible.png")));
             } else if (square.isBox()) {
-                entityImage = new ImageView(new Image(new FileInputStream("src\\box.png")));
+                entityImage = new ImageView(new Image(new FileInputStream("src\\image\\box.png")));
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found !");
