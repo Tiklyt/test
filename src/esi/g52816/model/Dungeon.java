@@ -6,7 +6,7 @@ package esi.g52816.model;
  */
 public class Dungeon {
 
-    private Square[][] plate;
+    private final Square[][] plate;
     private FileManager fileManager = new FileManager();
     private final int DUNGEONS_LENGTH = fileManager.getDungeonLength();
     private int currentLevel;

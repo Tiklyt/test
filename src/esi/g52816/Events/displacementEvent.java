@@ -24,7 +24,7 @@ public class displacementEvent implements EventHandler<KeyEvent> {
     }
 
     /**
-     * Handle the event when ever the user press W (LEFT) S (DOWN) A (LEFT) D
+     * Handle the event when ever the user press W (UP) S (DOWN) A (LEFT) D
      * (RIGHT) I have a QWERTY keyboard ^^
      *
      * @param t the event that we can recover data like which key he pressed

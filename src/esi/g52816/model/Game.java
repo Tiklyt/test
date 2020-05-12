@@ -34,6 +34,15 @@ public class Game extends Observable {
         nbStorageSlot = dungeon.StorageFinder();
         hlist = FXCollections.observableArrayList();
     }
+    
+    public Game(int level){
+        controller = null;
+        dungeon = new Dungeon();
+        dungeon.DungeonLoader(level);
+        posPlayer = dungeon.playerFinder();
+        nbStorageSlot = dungeon.StorageFinder();
+        hlist = FXCollections.observableArrayList();
+    }
 
     /**
      * Allow to execute a Move if the command can be done.
